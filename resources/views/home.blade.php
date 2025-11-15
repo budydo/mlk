@@ -270,9 +270,18 @@
           <a href="{{ route('portfolio.index') }}" class="text-sm text-emerald-600">Lihat Semua →</a>
         </div>
 
-        {{-- Grid portofolio — menampilkan 12 proyek unggulan dari database --}}
+        {{-- Grid portofolio — menampilkan 6 proyek terbaru berdasarkan created_at (terbaru ke terlama) --}}
+        @php
+          use App\Models\Project;
+          $latestProjects = Project::query()
+            ->where('is_published', 1)
+            ->orderBy('created_at', 'desc')
+            ->take(6)
+            ->get();
+        @endphp
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          @forelse($featuredProjects as $project)
+          @forelse($latestProjects as $project)
             <article class="bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition reveal" data-reveal>
               {{-- Gambar Proyek --}}
               @if($project->cover_image)
