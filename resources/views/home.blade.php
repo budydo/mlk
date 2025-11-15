@@ -91,7 +91,7 @@
             <div class="reveal" data-reveal>
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center {{ $loop->odd ? '' : 'lg:flex-row-reverse' }}">
                 {{-- Gambar Layanan --}}
-                <div class="service-image fade-in-image {{ $loop->odd ? 'lg:order-1' : 'lg:order-2' }}">
+                <div class="service-image {{ $loop->odd ? 'lg:order-1' : 'lg:order-2' }}">
                   @if($service->image_path)
                     <img src="{{ imageUrl($service->image_path) }}" alt="{{ $service->title }}" class="w-full h-80 object-cover rounded-xl shadow-lg" />
                   @else

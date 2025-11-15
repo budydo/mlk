@@ -54,15 +54,21 @@
 }
 
 /* Service Section Animations */
-.service-image {
+.reveal .service-image {
     opacity: 0;
-    animation: fadeInImage 1s ease-out forwards;
+}
+
+.reveal.show .service-image {
+    animation: fadeInImage 0.8s ease-out forwards;
     animation-delay: 0.2s;
 }
 
-.service-content {
+.reveal .service-content {
     opacity: 0;
-    animation: slideInText 1s ease-out forwards;
+}
+
+.reveal.show .service-content {
+    animation: slideInText 0.8s ease-out forwards;
     animation-delay: 0.4s;
 }
 
