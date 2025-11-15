@@ -4,61 +4,55 @@
 @section('title', 'Beranda — MANDIRI LESTARI KONSULTAN')
 
 @section('content')
-    {{-- HERO SLIDER --}}
+    {{-- HERO SLIDER — Konten dinamis dari database (home_contents) --}}
     <section class="relative">
       <div id="slider" class="relative overflow-hidden">
         <div class="relative h-[68vh] lg:h-[76vh]">
-          <!-- slides -->
-          <div class="slide absolute inset-0 opacity-0 transition-opacity duration-800 ease-out" data-index="0">
-            <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1920&auto=format&fit=crop" alt="restorasi lahan" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 hero-mask"></div>
-            <div class="absolute inset-0 max-w-7xl mx-auto px-6 flex items-center">
-              <div class="w-full lg:w-1/2 text-white py-12">
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold slide-title">Restorasi Lahan & Pemulihan Ekosistem</h2>
-                <p class="mt-4 text-lg sm:text-xl text-slate-200/90">
-                  Program revegetasi, rehabilitasi, dan pemantauan agar fungsi ekologis pulih dan komunitas berdaya.
-                </p>
-                <div class="mt-8 flex gap-3">
-                  <a href="#projects" class="px-5 py-3 rounded-md btn-primary shadow">Lihat Studi Kasus</a>
-                  <a href="#consult" class="px-5 py-3 rounded-md btn-ghost">Minta Penawaran</a>
+          {{-- Tampilkan slide dari database --}}
+          @if($heroContents && count($heroContents) > 0)
+            @foreach($heroContents as $content)
+              <div class="slide absolute inset-0 {{ $loop->first ? 'opacity-100' : 'opacity-0' }} transition-opacity duration-800 ease-out" data-index="{{ $loop->index }}">
+                {{-- Gambar Hero dari database atau Unsplash --}}
+                @if($content->image_path)
+                  <img src="{{ imageUrl($content->image_path) }}" alt="{{ $content->title }}" class="w-full h-full object-cover" />
+                @else
+                  {{-- Fallback: gradient warna jika gambar tidak ada --}}
+                  <div class="w-full h-full bg-gradient-to-r from-emerald-600 to-blue-600"></div>
+                @endif
+                <div class="absolute inset-0 hero-mask"></div>
+                <div class="absolute inset-0 max-w-7xl mx-auto px-6 flex items-center">
+                  <div class="w-full lg:w-1/2 text-white py-12">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold slide-title">{{ $content->title }}</h2>
+                    <p class="mt-4 text-lg sm:text-xl text-slate-200/90">{{ $content->description }}</p>
+                    @if($content->button_text && $content->button_url)
+                      <div class="mt-8 flex gap-3">
+                        <a href="{{ $content->button_url }}" class="px-5 py-3 rounded-md btn-primary shadow">
+                          {{ $content->button_text }}
+                        </a>
+                        <a href="#consult" class="px-5 py-3 rounded-md btn-ghost">Minta Penawaran</a>
+                      </div>
+                    @endif
+                  </div>
+                </div>
+              </div>
+            @endforeach
+          @else
+            {{-- Fallback: Tampilkan slide statis jika tidak ada data dari database --}}
+            <div class="slide absolute inset-0 opacity-100 transition-opacity duration-800 ease-out" data-index="0">
+              <img src="https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=1920&auto=format&fit=crop" alt="restorasi lahan" class="w-full h-full object-cover" />
+              <div class="absolute inset-0 hero-mask"></div>
+              <div class="absolute inset-0 max-w-7xl mx-auto px-6 flex items-center">
+                <div class="w-full lg:w-1/2 text-white py-12">
+                  <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold slide-title">Restorasi Lahan & Pemulihan Ekosistem</h2>
+                  <p class="mt-4 text-lg sm:text-xl text-slate-200/90">Program revegetasi, rehabilitasi, dan pemantauan agar fungsi ekologis pulih dan komunitas berdaya.</p>
+                  <div class="mt-8 flex gap-3">
+                    <a href="#projects" class="px-5 py-3 rounded-md btn-primary shadow">Lihat Studi Kasus</a>
+                    <a href="#consult" class="px-5 py-3 rounded-md btn-ghost">Minta Penawaran</a>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-
-          <div class="slide absolute inset-0 opacity-0 transition-opacity duration-800 ease-out" data-index="1">
-            <img src="https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?q=80&w=1920&auto=format&fit=crop" alt="amdal" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 hero-mask"></div>
-            <div class="absolute inset-0 max-w-7xl mx-auto px-6 flex items-center">
-              <div class="w-full lg:w-1/2 text-white py-12">
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold slide-title">AMDAL & Studi Dampak Yang Kuat</h2>
-                <p class="mt-4 text-lg sm:text-xl text-slate-200/90">
-                  Dokumen teknis komprehensif dan rekomendasi mitigasi yang dapat dipertanggungjawabkan.
-                </p>
-                <div class="mt-8 flex gap-3">
-                  <a href="#services" class="px-5 py-3 rounded-md btn-primary shadow">Lihat Layanan</a>
-                  <a href="#contact" class="px-5 py-3 rounded-md btn-ghost">Konsultasi Via Email</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="slide absolute inset-0 opacity-0 transition-opacity duration-800 ease-out" data-index="2">
-            <img src="https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=1920&auto=format&fit=crop" alt="pemberdayaan masyarakat" class="w-full h-full object-cover" />
-            <div class="absolute inset-0 hero-mask"></div>
-            <div class="absolute inset-0 max-w-7xl mx-auto px-6 flex items-center">
-              <div class="w-full lg:w-1/2 text-white py-12">
-                <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold slide-title">Pemberdayaan Komunitas & Dampak Sosial</h2>
-                <p class="mt-4 text-lg sm:text-xl text-slate-200/90">
-                  Program yang memperkuat kapasitas lokal untuk hasil yang berkelanjutan.
-                </p>
-                <div class="mt-8 flex gap-3">
-                  <a href="#projects" class="px-5 py-3 rounded-md btn-primary shadow">Study Pemberdayaan</a>
-                  <a href="#insights" class="px-5 py-3 rounded-md btn-ghost">Baca Insight</a>
-                </div>
-              </div>
-            </div>
-          </div>
+          @endif
         </div>
 
         {{-- nav controls --}}
@@ -84,62 +78,79 @@
     </section>
 
     {{-- SERVICES --}}
-    <section id="services" class="py-14">
+    <section id="services" class="py-14 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
-        <div class="text-center mb-10">
+        <div class="text-center mb-12">
           <h3 class="text-2xl font-extrabold">Layanan Utama Kami</h3>
           <p class="text-slate-600 mt-2">Dari perizinan hingga program pemberdayaan — layanan komprehensif yang disesuaikan dengan kebutuhan proyek Anda.</p>
         </div>
 
-        <div class="space-y-10">
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center reveal" data-reveal>
-            <div class="rounded-lg overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop" alt="UKL-UPL" class="w-full h-72 object-cover" />
-            </div>
-            <div>
-              <h4 class="text-xl font-semibold">Upaya Pengelolaan & Pemantauan Lingkungan (UKL-UPL)</h4>
-              <p class="mt-3 text-slate-600">Rencana teknis pengelolaan lingkungan dan sistem pemantauan untuk memastikan operasi usaha berjalan sesuai kepatuhan lingkungan.</p>
-              <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                <li>• Penyusunan UKL-UPL & rencana pemantauan</li>
-                <li>• Pelatihan tim lapangan & SOP pemantauan</li>
-                <li>• Dashboard pemantauan & laporan berkala</li>
-              </ul>
-              <div class="mt-4"><a href="#" class="text-emerald-600 font-medium">Pelajari lebih lanjut →</a></div>
-            </div>
-          </div>
+        {{-- Featured Services dengan layout bergantian --}}
+        <div class="space-y-16">
+          @foreach(($services ?? collect())->take(3) as $service)
+            <div class="reveal" data-reveal>
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center {{ $loop->odd ? '' : 'lg:flex-row-reverse' }}">
+                {{-- Gambar Layanan --}}
+                <div class="service-image fade-in-image {{ $loop->odd ? 'lg:order-1' : 'lg:order-2' }}">
+                  @if($service->image_path)
+                    <img src="{{ imageUrl($service->image_path) }}" alt="{{ $service->title }}" class="w-full h-80 object-cover rounded-xl shadow-lg" />
+                  @else
+                    <div class="w-full h-80 bg-gradient-to-br from-emerald-100 to-blue-100 rounded-xl shadow-lg flex items-center justify-center">
+                      <div class="text-emerald-600 text-5xl font-bold">📋</div>
+                    </div>
+                  @endif
+                </div>
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center reveal" data-reveal>
-            <div class="order-2 lg:order-1">
-              <h4 class="text-xl font-semibold">Analisis Mengenai Dampak Lingkungan (AMDAL)</h4>
-              <p class="mt-3 text-slate-600">Kajian dampak komprehensif, identifikasi mitigasi, dan rekomendasi kebijakan untuk memenuhi persyaratan regulator.</p>
-              <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                <li>• Studi baseline lingkungan & sosio-ekonomi</li>
-                <li>• Analisis dampak & matriks mitigasi</li>
-                <li>• Konsultasi publik & fasilitasi AMDAL</li>
-              </ul>
-              <div class="mt-4"><a href="#" class="text-emerald-600 font-medium">Pelajari lebih lanjut →</a></div>
-            </div>
-            <div class="order-1 lg:order-2 rounded-lg overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1200&auto=format&fit=crop" alt="AMDAL" class="w-full h-72 object-cover" />
-            </div>
-          </div>
+                {{-- Konten Layanan --}}
+                <div class="service-content slide-in-text {{ $loop->odd ? 'lg:order-2' : 'lg:order-1' }}">
+                  <h4 class="text-3xl font-extrabold text-gray-900">{{ $service->title }}</h4>
+                  <p class="mt-4 text-slate-600 text-lg leading-relaxed">{{ $service->description ?? $service->excerpt }}</p>
+                  
+                  @if($service->features)
+                    <ul class="mt-6 space-y-3">
+                      @foreach(json_decode($service->features, true) ?? [] as $feature)
+                        <li class="flex items-start gap-3">
+                          <span class="text-emerald-600 font-bold mt-1">•</span>
+                          <span class="text-slate-700">{{ $feature }}</span>
+                        </li>
+                      @endforeach
+                    </ul>
+                  @endif
 
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center reveal" data-reveal>
-            <div class="rounded-lg overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop" alt="Pemberdayaan" class="w-full h-72 object-cover" />
+                  <div class="mt-8">
+                    <a href="{{ route('services.show', $service->slug) }}" class="inline-block px-6 py-3 bg-emerald-600 text-white font-semibold rounded-lg hover:bg-emerald-700 transition">
+                      Pelajari lebih lanjut →
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <h4 class="text-xl font-semibold">Pemberdayaan Komunitas & Program Sosial</h4>
-              <p class="mt-3 text-slate-600">Desain intervensi sosial yang meningkatkan kapasitas ekonomi dan sosial komunitas terdampak.</p>
-              <ul class="mt-4 space-y-2 text-sm text-slate-600">
-                <li>• Pelatihan keterampilan & inkubasi usaha</li>
-                <li>• Evaluasi dampak sosial & indikator</li>
-                <li>• Monitoring berkelanjutan & adaptasi program</li>
-              </ul>
-              <div class="mt-4"><a href="#" class="text-emerald-600 font-medium">Pelajari lebih lanjut →</a></div>
-            </div>
-          </div>
+          @endforeach
         </div>
+
+        {{-- Grid layanan tambahan (jika ada lebih dari 3) --}}
+        @if(($services ?? collect())->count() > 3)
+          <div class="mt-16 pt-16 border-t">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              @foreach(($services ?? collect())->skip(3)->take(6) as $service)
+                <article class="reveal bg-white rounded-xl p-6 shadow hover:shadow-lg transition" data-reveal>
+                  <div class="flex items-start gap-4">
+                    @if($service->icon)
+                      <img src="{{ $service->icon }}" alt="{{ $service->title }}" class="w-12 h-12 object-contain" />
+                    @else
+                      <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-md flex items-center justify-center font-bold">S</div>
+                    @endif
+                    <div>
+                      <h5 class="text-lg font-semibold">{{ $service->title }}</h5>
+                      <p class="text-sm text-slate-600 mt-2">{{ $service->excerpt }}</p>
+                      <div class="mt-3"><a href="{{ route('services.show', $service->slug) }}" class="text-emerald-600 font-medium text-sm">Pelajari lebih lanjut →</a></div>
+                    </div>
+                  </div>
+                </article>
+              @endforeach
+            </div>
+          </div>
+        @endif
       </div>
     </section>
 
@@ -256,36 +267,37 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="flex items-center justify-between mb-6">
           <h3 class="text-2xl font-extrabold">Portofolio Terpilih</h3>
-          <a href="#" class="text-sm text-emerald-600">Lihat Semua →</a>
+          <a href="{{ route('portfolio.index') }}" class="text-sm text-emerald-600">Lihat Semua →</a>
         </div>
 
+        {{-- Grid portofolio — menampilkan 12 proyek unggulan dari database --}}
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <article class="bg-white rounded-xl overflow-hidden shadow reveal" data-reveal>
-            <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1200&auto=format&fit=crop" class="w-full h-44 object-cover" />
-            <div class="p-4">
-              <div class="text-xs text-slate-400">2024 • Restorasi</div>
-              <h4 class="font-semibold mt-2">Restorasi Hutan Pesisir — Kabupaten X</h4>
-              <p class="mt-2 text-sm text-slate-500">Revegetasi & pemberdayaan komunitas nelayan.</p>
+          @forelse($featuredProjects as $project)
+            <article class="bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition reveal" data-reveal>
+              {{-- Gambar Proyek --}}
+              @if($project->cover_image)
+                <img src="{{ imageUrl($project->cover_image) }}" alt="{{ $project->title }}" class="w-full h-44 object-cover" />
+              @else
+                <div class="w-full h-44 bg-gradient-to-br from-emerald-100 to-blue-100 flex items-center justify-center">
+                  <div class="text-emerald-600 text-2xl font-bold">P</div>
+                </div>
+              @endif
+              <div class="p-4">
+                <h4 class="font-semibold mt-2 line-clamp-2">{{ $project->title }}</h4>
+                <p class="mt-2 text-sm text-slate-500 line-clamp-2">{{ $project->excerpt }}</p>
+                <div class="mt-3">
+                  <a href="{{ route('portfolio.show', $project->slug) }}" class="text-emerald-600 text-sm font-medium hover:text-emerald-700">
+                    Lihat Detail →
+                  </a>
+                </div>
+              </div>
+            </article>
+          @empty
+            {{-- Fallback: Tampilkan pesan jika tidak ada proyek unggulan --}}
+            <div class="col-span-full text-center py-12">
+              <p class="text-slate-600">Tidak ada proyek unggulan yang tersedia saat ini.</p>
             </div>
-          </article>
-
-          <article class="bg-white rounded-xl overflow-hidden shadow reveal" data-reveal>
-            <img src="https://images.unsplash.com/photo-1509395176047-4a66953fd231?q=80&w=1200&auto=format&fit=crop" class="w-full h-44 object-cover" />
-            <div class="p-4">
-              <div class="text-xs text-slate-400">2023 • SIPA</div>
-              <h4 class="font-semibold mt-2">Pengusahaan Air Tanah — Kota Y</h4>
-              <p class="mt-2 text-sm text-slate-500">Pemantauan kualitas & rekomendasi izin.</p>
-            </div>
-          </article>
-
-          <article class="bg-white rounded-xl overflow-hidden shadow reveal" data-reveal>
-            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop" class="w-full h-44 object-cover" />
-            <div class="p-4">
-              <div class="text-xs text-slate-400">2022 • Pemberdayaan</div>
-              <h4 class="font-semibold mt-2">Agroforestry — Desa A</h4>
-              <p class="mt-2 text-sm text-slate-500">Pelatihan & market linkage untuk kelompok tani.</p>
-            </div>
-          </article>
+          @endforelse
         </div>
       </div>
     </section>
@@ -321,58 +333,152 @@
     {{-- SCRIPTS (hero slider, reveal, testi, logos) --}}
     @push('scripts')
     <script>
-      /* HERO SLIDER */
-      const slides = Array.from(document.querySelectorAll(".slide"));
-      const dotsContainer = document.getElementById("dots");
-      let active = 0;
-      let autoplayInterval = null;
-      const AUTOPLAY_MS = 6000;
+      // HERO SLIDER - Simple and Direct
+      let sliderState = {
+        slides: [],
+        dots: [],
+        active: 0,
+        autoplayInterval: null,
+        AUTOPLAY_MS: 6000
+      };
 
-      function showSlide(i) {
-        slides.forEach((s) => { s.style.opacity = "0"; s.setAttribute("aria-hidden", "true"); });
-        const slide = slides[i];
-        if (!slide) return;
-        slide.style.opacity = "1";
-        slide.setAttribute("aria-hidden", "false");
-        Array.from(dotsContainer.children).forEach((d, idx) => {
-          d.classList.toggle("bg-white", idx === i);
-          d.classList.toggle("bg-white/30", idx !== i);
+      function initSlider() {
+        sliderState.slides = Array.from(document.querySelectorAll(".slide"));
+        if (sliderState.slides.length === 0) return;
+
+        const dotsContainer = document.getElementById("dots");
+        if (!dotsContainer) return;
+
+        // Create dots
+        sliderState.slides.forEach((_, idx) => {
+          const dot = document.createElement("button");
+          dot.type = "button";
+          dot.className = idx === 0 ? "w-3 h-3 rounded-full bg-white" : "w-3 h-3 rounded-full bg-white/30";
+          dot.setAttribute("aria-label", "Slide " + (idx + 1));
+          dot.addEventListener("click", () => {
+            pauseAutoplay();
+            showSlide(idx);
+            startAutoplay();
+          });
+          dotsContainer.appendChild(dot);
+          sliderState.dots.push(dot);
         });
-        active = i;
+
+        // Button handlers
+        const nextBtn = document.getElementById("next");
+        const prevBtn = document.getElementById("prev");
+        
+        if (nextBtn) {
+          nextBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            pauseAutoplay();
+            showSlide(sliderState.active + 1);
+            startAutoplay();
+          });
+        }
+        
+        if (prevBtn) {
+          prevBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            pauseAutoplay();
+            showSlide(sliderState.active - 1);
+            startAutoplay();
+          });
+        }
+
+        // Slider hover
+        const sliderElement = document.getElementById("slider");
+        if (sliderElement) {
+          sliderElement.addEventListener("mouseenter", pauseAutoplay);
+          sliderElement.addEventListener("mouseleave", startAutoplay);
+        }
+
+        // Keyboard navigation
+        document.addEventListener("keydown", (e) => {
+          if (e.key === "ArrowRight") {
+            pauseAutoplay();
+            showSlide(sliderState.active + 1);
+            startAutoplay();
+          } else if (e.key === "ArrowLeft") {
+            pauseAutoplay();
+            showSlide(sliderState.active - 1);
+            startAutoplay();
+          }
+        });
+
+        // Initialize
+        showSlide(0);
+        startAutoplay();
       }
 
-      slides.forEach((s, idx) => {
-        const dot = document.createElement("button");
-        dot.className = idx === 0 ? "w-3 h-3 rounded-full bg-white" : "w-3 h-3 rounded-full bg-white/30";
-        dot.setAttribute("aria-label", "Slide " + (idx + 1));
-        dot.addEventListener("click", () => { pauseAutoplay(); showSlide(idx); startAutoplay(); });
-        dotsContainer.appendChild(dot);
-      });
+      function showSlide(idx) {
+        if (sliderState.slides.length === 0) return;
+        
+        const nextIdx = ((idx % sliderState.slides.length) + sliderState.slides.length) % sliderState.slides.length;
+        
+        // Update slides
+        sliderState.slides.forEach((slide, i) => {
+          if (i === nextIdx) {
+            slide.classList.remove("opacity-0");
+            slide.classList.add("opacity-100");
+          } else {
+            slide.classList.remove("opacity-100");
+            slide.classList.add("opacity-0");
+          }
+        });
 
-      function nextSlide() { showSlide((active + 1) % slides.length); }
-      function prevSlide() { showSlide((active - 1 + slides.length) % slides.length); }
+        // Update dots
+        sliderState.dots.forEach((dot, i) => {
+          if (i === nextIdx) {
+            dot.classList.remove("bg-white/30");
+            dot.classList.add("bg-white");
+          } else {
+            dot.classList.remove("bg-white");
+            dot.classList.add("bg-white/30");
+          }
+        });
 
-      document.getElementById("next").addEventListener("click", () => { pauseAutoplay(); nextSlide(); startAutoplay(); });
-      document.getElementById("prev").addEventListener("click", () => { pauseAutoplay(); prevSlide(); startAutoplay(); });
+        sliderState.active = nextIdx;
+      }
 
-      function startAutoplay() { autoplayInterval = setInterval(nextSlide, AUTOPLAY_MS); }
-      function pauseAutoplay() { if (autoplayInterval) { clearInterval(autoplayInterval); autoplayInterval = null; } }
+      function startAutoplay() {
+        if (sliderState.slides.length > 1) {
+          sliderState.autoplayInterval = setInterval(() => {
+            showSlide(sliderState.active + 1);
+          }, sliderState.AUTOPLAY_MS);
+        }
+      }
 
-      document.getElementById("slider").addEventListener("mouseenter", pauseAutoplay);
-      document.getElementById("slider").addEventListener("mouseleave", startAutoplay);
-      showSlide(0);
-      startAutoplay();
+      function pauseAutoplay() {
+        if (sliderState.autoplayInterval) {
+          clearInterval(sliderState.autoplayInterval);
+          sliderState.autoplayInterval = null;
+        }
+      }
 
-      /* REVEAL ON SCROLL */
+      // Initialize when DOM is ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initSlider);
+      } else {
+        initSlider();
+      }
+
+      // REVEAL ON SCROLL
       const reveals = document.querySelectorAll("[data-reveal]");
       const io = new IntersectionObserver((entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting) { e.target.classList.add("show"); io.unobserve(e.target); }
+          if (e.isIntersecting) { 
+            e.target.classList.add("show"); 
+            io.unobserve(e.target); 
+          }
         });
       }, { threshold: 0.12 });
-      reveals.forEach((r) => { r.classList.add("reveal"); io.observe(r); });
+      reveals.forEach((r) => { 
+        r.classList.add("reveal"); 
+        io.observe(r); 
+      });
 
-      /* TESTIMONIALS */
+      // TESTIMONIALS
       const testimonials = [
         { name: "Maria Sharapova", title: "Managing Director, Themewagon Inc.", photo: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=400&auto=format&fit=crop", text: "Tim Mandiri Lestari sangat profesional. Studi dampak dan pelaksanaan di lapangan berjalan rapi dan transparan." },
         { name: "Budi Santoso", title: "Direktur PT. Mitra Hijau", photo: "https://images.unsplash.com/photo-1545996124-2d19f8f2b6a8?q=80&w=400&auto=format&fit=crop", text: "Pendekatannya partisipatif — komunitas lokal benar-benar dilibatkan. Hasilnya terukur." },
@@ -380,7 +486,9 @@
       ];
       const testiList = document.getElementById("testiList");
       let testiIndex = 0;
+      
       function renderTestimonials() {
+        if (!testiList) return;
         testiList.innerHTML = "";
         testimonials.forEach((t) => {
           const card = document.createElement("div");
@@ -401,17 +509,33 @@
         });
         updateTestiPosition();
       }
+      
       function updateTestiPosition() {
-        const width = testiList.children[0]?.getBoundingClientRect().width || 0;
+        if (!testiList || testiList.children.length === 0) return;
+        const width = testiList.children[0].getBoundingClientRect().width;
         testiList.style.transform = `translateX(${-testiIndex * width}px)`;
       }
-      document.getElementById("testiNext").addEventListener("click", () => { testiIndex = Math.min(testimonials.length - 1, testiIndex + 1); updateTestiPosition(); });
-      document.getElementById("testiPrev").addEventListener("click", () => { testiIndex = Math.max(0, testiIndex - 1); updateTestiPosition(); });
-      setInterval(() => { testiIndex = (testiIndex + 1) % testimonials.length; updateTestiPosition(); }, 5000);
+      
+      const testiNext = document.getElementById("testiNext");
+      const testiPrev = document.getElementById("testiPrev");
+      if (testiNext) testiNext.addEventListener("click", () => { 
+        testiIndex = Math.min(testimonials.length - 1, testiIndex + 1); 
+        updateTestiPosition(); 
+      });
+      if (testiPrev) testiPrev.addEventListener("click", () => { 
+        testiIndex = Math.max(0, testiIndex - 1); 
+        updateTestiPosition(); 
+      });
+      
+      setInterval(() => { 
+        testiIndex = (testiIndex + 1) % testimonials.length; 
+        updateTestiPosition(); 
+      }, 5000);
+      
       window.addEventListener("resize", updateTestiPosition);
       renderTestimonials();
 
-      /* LOGOS marquee */
+      // LOGOS marquee
       const logos = [
         "https://dummyimage.com/160x60/eee/aaa.png&text=Partner+1",
         "https://dummyimage.com/160x60/eee/aaa.png&text=Partner+2",
@@ -421,21 +545,28 @@
         "https://dummyimage.com/160x60/eee/aaa.png&text=Partner+6",
       ];
       const logoTrack = document.getElementById("logoTrack");
-      logos.forEach((src) => {
-        const el = document.createElement("div"); el.className = "opacity-80"; el.innerHTML = `<img src="${src}" alt="client logo" class="h-12 object-contain">`; logoTrack.appendChild(el);
-      });
-      logos.forEach((src) => {
-        const el = document.createElement("div"); el.className = "opacity-80"; el.innerHTML = `<img src="${src}" alt="client logo" class="h-12 object-contain">`; logoTrack.appendChild(el);
-      });
-      let logoOffset = 0;
-      function tickLogos() { logoOffset -= 0.2; logoTrack.style.transform = `translateX(${logoOffset}px)`; if (Math.abs(logoOffset) > logoTrack.scrollWidth / 2) logoOffset = 0; requestAnimationFrame(tickLogos); }
-      tickLogos();
-
-      /* keyboard a11y for hero */
-      document.addEventListener("keydown", (e) => {
-        if (e.key === "ArrowRight") { pauseAutoplay(); nextSlide(); startAutoplay(); }
-        if (e.key === "ArrowLeft") { pauseAutoplay(); prevSlide(); startAutoplay(); }
-      });
+      if (logoTrack) {
+        logos.forEach((src) => {
+          const el = document.createElement("div"); 
+          el.className = "opacity-80"; 
+          el.innerHTML = `<img src="${src}" alt="client logo" class="h-12 object-contain">`; 
+          logoTrack.appendChild(el);
+        });
+        logos.forEach((src) => {
+          const el = document.createElement("div"); 
+          el.className = "opacity-80"; 
+          el.innerHTML = `<img src="${src}" alt="client logo" class="h-12 object-contain">`; 
+          logoTrack.appendChild(el);
+        });
+        let logoOffset = 0;
+        function tickLogos() { 
+          logoOffset -= 0.2; 
+          logoTrack.style.transform = `translateX(${logoOffset}px)`; 
+          if (Math.abs(logoOffset) > logoTrack.scrollWidth / 2) logoOffset = 0; 
+          requestAnimationFrame(tickLogos); 
+        }
+        tickLogos();
+      }
     </script>
     @endpush
 @endsection

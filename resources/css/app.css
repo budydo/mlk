@@ -1,11 +1,113 @@
-@import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
-@source '../**/*.blade.php';
-@source '../**/*.js';
+/* Hero Slider */
+.hero-mask {
+    background: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.3) 50%,
+        rgba(0, 0, 0, 0) 100%
+    );
+}
 
-@theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+.slide-title {
+    animation: slideInDown 0.8s ease-out forwards;
+}
+
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Buttons */
+.btn-primary {
+    @apply bg-emerald-600 text-white hover:bg-emerald-700 transition;
+}
+
+.btn-ghost {
+    @apply border border-white/30 text-white hover:bg-white/10 transition;
+}
+
+/* Card */
+.card-glass {
+    @apply bg-white/10 backdrop-blur border border-white/20 rounded-xl;
+}
+
+/* Reveal on scroll */
+.reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Service Section Animations */
+.service-image {
+    opacity: 0;
+    animation: fadeInImage 1s ease-out forwards;
+    animation-delay: 0.2s;
+}
+
+.service-content {
+    opacity: 0;
+    animation: slideInText 1s ease-out forwards;
+    animation-delay: 0.4s;
+}
+
+@keyframes fadeInImage {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slideInText {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive adjustments for service animations */
+@media (max-width: 1024px) {
+    .service-image,
+    .service-content {
+        animation-delay: 0s;
+        opacity: 0;
+    }
+
+    .reveal.show .service-image {
+        animation: fadeInImage 0.8s ease-out forwards;
+        animation-delay: 0.2s;
+    }
+
+    .reveal.show .service-content {
+        animation: slideInText 0.8s ease-out forwards;
+        animation-delay: 0.4s;
+    }
+}
+
+.reveal.show {
+    opacity: 1;
+    transform: translateY(0);
 }

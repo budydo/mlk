@@ -1,7 +1,8 @@
 {{-- File: resources/views/livewire/consult-request.blade.php --}}
 <div>
     {{-- Modal (Tailwind) --}}
-    <div id="consultModalLive" aria-hidden="{{ $sent ? 'true' : 'false' }}">
+    {{-- Modal di-set `hidden` secara default agar tidak tampil otomatis saat memuat halaman. --}}
+    <div id="consultModalLive" class="hidden" aria-hidden="true">
         <div class="fixed inset-0 z-60 flex items-center justify-center">
             <div class="absolute inset-0 bg-black/40"></div>
 
@@ -84,7 +85,10 @@
                 el.addEventListener('click', function (e) {
                     e.preventDefault();
                     const modal = document.getElementById('consultModalLive');
-                    if (modal) modal.classList.remove('hidden'); // in case it's hidden by default
+                    if (modal) {
+                        modal.classList.remove('hidden');
+                        modal.setAttribute('aria-hidden', 'false');
+                    }
                 });
             });
 
@@ -93,7 +97,10 @@
             if (closeBtn) {
                 closeBtn.addEventListener('click', function () {
                     const modal = document.getElementById('consultModalLive');
-                    if (modal) modal.classList.add('hidden');
+                    if (modal) {
+                        modal.classList.add('hidden');
+                        modal.setAttribute('aria-hidden', 'true');
+                    }
                 });
             }
 
@@ -111,7 +118,10 @@
 
                 // tutup modal bila masih terbuka
                 const modal = document.getElementById('consultModalLive');
-                if (modal) modal.classList.add('hidden');
+                if (modal) {
+                    modal.classList.add('hidden');
+                    modal.setAttribute('aria-hidden', 'true');
+                }
 
                 // jika user memilih WA, buka wa link baru (prefill)
                 if (detail.notify_way === 'whatsapp' && detail.wa_url) {

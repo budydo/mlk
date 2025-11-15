@@ -16,10 +16,17 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Panggil seeder aplikasi yang menyiapkan data awal untuk pengujian
+        $this->call([
+            AppInitialSeeder::class,
+            HomeContentSeeder::class,
+            FeaturedProjectSeeder::class,
+            CompleteServiceSeeder::class,
+            ServiceImageSeeder::class,
+            ProjectImageSeeder::class,
+            HomeContentImageSeeder::class,
+            TeamMemberImageSeeder::class,
+            ContactMessageSeeder::class,
         ]);
     }
 }
