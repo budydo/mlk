@@ -35,11 +35,21 @@ Route::get('/tentang-kami', [AboutController::class, 'index'])->name('about');
 Route::get('/kontak', [ContactController::class, 'index'])->name('contact');
 Route::post('/kontak/kirim', [ContactController::class, 'send'])->name('contact.send');
 
-// Group admin — memerlukan autentikasi
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+// Group admin — memerlukan autentikasi dan role admin
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class)->names('users');
     Route::resource('services', App\Http\Controllers\Admin\ServiceController::class)->names('services');
     Route::resource('projects', App\Http\Controllers\Admin\ProjectController::class)->names('projects');
+});
+
+// Group editor — memerlukan autentikasi dan role editor
+Route::middleware(['auth', 'role:editor'])->prefix('editor')->name('editor.')->group(function () {
+    Route::get('/', [App\Http\Controllers\Editor\DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('home-contents', App\Http\Controllers\Editor\HomeContentController::class)->names('home-contents');
+    Route::resource('services', App\Http\Controllers\Editor\ServiceController::class)->names('services');
+    Route::resource('projects', App\Http\Controllers\Editor\ProjectController::class)->names('projects');
+    Route::resource('contact-messages', App\Http\Controllers\Editor\ContactMessageController::class)->only(['index', 'show', 'destroy'])->names('contact-messages');
 });
 
 // Auth routes (login, register, password, dll.)

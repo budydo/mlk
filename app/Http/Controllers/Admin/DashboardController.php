@@ -11,28 +11,21 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
-    public function __construct()
-    {
-        // Middleware closure untuk membatasi akses hanya untuk admin/editor
-        $this->middleware(function ($request, $next) {
-            $user = $request->user();
-            if (! $user || ! in_array($user->role, ['admin','editor'])) {
-                abort(403, 'Akses terlarang.');
-            }
-            return $next($request);
-        });
-    }
-
     /**
-     * Tampilkan dashboard admin sederhana.
+     * Tampilkan dashboard admin dengan statistik pengguna dan konten.
      */
     public function index()
     {
-        // Ambil ringkasan singkat
+        $usersCount = \App\Models\User::count();
+        $adminsCount = \App\Models\User::where('role', 'admin')->count();
+        $editorsCount = \App\Models\User::where('role', 'editor')->count();
         $servicesCount = Service::count();
         $projectsCount = Project::count();
         $messagesCount = ContactMessage::where('is_handled', false)->count();
 
-        return view('admin.dashboard', compact('servicesCount','projectsCount','messagesCount'));
+        return view('admin.dashboard', compact(
+            'usersCount', 'adminsCount', 'editorsCount',
+            'servicesCount', 'projectsCount', 'messagesCount'
+        ));
     }
 }
