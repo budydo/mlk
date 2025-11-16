@@ -41,6 +41,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->names('users');
     Route::resource('services', App\Http\Controllers\Admin\ServiceController::class)->names('services');
     Route::resource('projects', App\Http\Controllers\Admin\ProjectController::class)->names('projects');
+    Route::resource('contact-messages', App\Http\Controllers\Admin\ContactMessageController::class)->only(['index','show','destroy'])->names('contact-messages');
+    Route::post('contact-messages/{contactMessage}/reply', [App\Http\Controllers\Admin\ContactMessageController::class, 'reply'])->name('contact-messages.reply');
 });
 
 // Group editor — memerlukan autentikasi dan role editor
