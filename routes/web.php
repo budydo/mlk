@@ -21,6 +21,12 @@ use App\Http\Controllers\ContactController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+// DEBUG ROUTE - untuk test image URLs (akan dihapus nanti)
+Route::get('/debug-services', function () {
+    $services = \App\Models\Service::where('is_published', 1)->get();
+    return view('debug.services', ['services' => $services]);
+})->name('debug.services');
+
 Route::get('/layanan', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/layanan/{slug}', [ServiceController::class, 'show'])->name('services.show');
 

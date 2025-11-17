@@ -14,8 +14,11 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       @forelse($services->take(9) as $service)
         <article class="bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition">
-          @if($service->cover_image)
-            <img src="{{ imageUrl($service->cover_image) }}" alt="{{ $service->title }}" class="w-full h-40 object-cover" />
+          @php
+            $serviceImage = $service->image_path ?? $service->cover_image ?? null;
+          @endphp
+          @if($serviceImage)
+            <img src="{{ imageUrl($serviceImage) }}" alt="{{ $service->title }}" class="w-full h-40 object-cover" />
           @else
             <div class="w-full h-40 bg-gradient-to-br from-emerald-100 to-emerald-50 flex items-center justify-center">
               <div class="text-emerald-600 text-4xl font-bold">S</div>

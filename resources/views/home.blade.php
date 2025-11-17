@@ -77,7 +77,7 @@
       </div>
     </section>
 
-    {{-- SERVICES --}}
+    {{-- SERVICES SECTION — Menampilkan layanan utama perusahaan --}}
     <section id="services" class="py-14 bg-gray-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="text-center mb-12">
@@ -85,9 +85,14 @@
           <p class="text-slate-600 mt-2">Dari perizinan hingga program pemberdayaan — layanan komprehensif yang disesuaikan dengan kebutuhan proyek Anda.</p>
         </div>
 
-        {{-- Featured Services dengan layout bergantian --}}
+        {{-- Debug sudah dihapus — controller sekarang mengirim semua services yang dipublikasikan --}}
+
+        {{-- Featured Services dengan layout bergantian - Hanya menampilkan 3 services pertama yang sudah difilter dari controller --}}
         <div class="space-y-16">
-          @foreach(($services ?? collect())->take(3) as $service)
+          {{-- Pengecekan: jika ada services dan tidak kosong, tampilkan dalam loop --}}
+          @forelse(($services ?? collect())->take(3) as $service)
+            {{-- Pastikan service yang ditampilkan adalah yang dipublikasikan (is_published = 1) --}}
+            @if($service->is_published)
             <div class="reveal" data-reveal>
               <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center {{ $loop->odd ? '' : 'lg:flex-row-reverse' }}">
                 {{-- Gambar Layanan --}}
@@ -106,11 +111,15 @@
                   <h4 class="text-3xl font-extrabold text-gray-900">{{ $service->title }}</h4>
                   <p class="mt-4 text-slate-600 text-lg leading-relaxed">{{ $service->description ?? $service->excerpt }}</p>
                   
-                  @if($service->features)
+                  {{-- Menampilkan daftar fitur layanan jika tersedia --}}
+                  @if($service->features && is_array($service->features) && count($service->features) > 0)
                     <ul class="mt-6 space-y-3">
-                      @foreach(json_decode($service->features, true) ?? [] as $feature)
+                      {{-- Loop melalui setiap fitur dan tampilkan dalam bentuk list --}}
+                      @foreach($service->features as $feature)
                         <li class="flex items-start gap-3">
+                          {{-- Bullet point dengan warna emerald --}}
                           <span class="text-emerald-600 font-bold mt-1">•</span>
+                          {{-- Teks fitur dengan styling yang sesuai --}}
                           <span class="text-slate-700">{{ $feature }}</span>
                         </li>
                       @endforeach
@@ -125,29 +134,50 @@
                 </div>
               </div>
             </div>
-          @endforeach
+            {{-- Tutup pengecekan is_published --}}
+            @endif
+          {{-- Tutup loop forelse --}}
+          @empty
+            {{-- Tampilkan pesan jika tidak ada services yang dipublikasikan --}}
+            <div class="text-center py-12">
+              <p class="text-slate-600 text-lg">Belum ada layanan yang dipublikasikan.</p>
+            </div>
+          @endforelse
         </div>
 
-        {{-- Grid layanan tambahan (jika ada lebih dari 3) --}}
+        {{-- Grid layanan tambahan (jika ada lebih dari 3 services yang dipublikasikan) --}}
         @if(($services ?? collect())->count() > 3)
           <div class="mt-16 pt-16 border-t">
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              @foreach(($services ?? collect())->skip(3)->take(6) as $service)
+              {{-- Tampilkan semua services berikutnya (dari service ke-4 dst) yang sudah difilter di controller --}}
+              @forelse(($services ?? collect())->skip(3) as $service)
+                {{-- Pengecekan tambahan: pastikan service yang ditampilkan adalah yang dipublikasikan --}}
+                @if($service->is_published)
                 <article class="reveal bg-white rounded-xl p-6 shadow hover:shadow-lg transition" data-reveal>
                   <div class="flex items-start gap-4">
-                    @if($service->icon)
-                      <img src="{{ $service->icon }}" alt="{{ $service->title }}" class="w-12 h-12 object-contain" />
+                    {{-- Tampilkan cover_image service jika ada, jika tidak gunakan placeholder --}}
+                    @if($service->cover_image)
+                      <img src="{{ $service->cover_image }}" alt="{{ $service->title }}" class="w-12 h-12 object-contain" />
                     @else
+                      {{-- Placeholder icon dengan huruf pertama dari "Service" --}}
                       <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-md flex items-center justify-center font-bold">S</div>
                     @endif
                     <div>
+                      {{-- Judul service --}}
                       <h5 class="text-lg font-semibold">{{ $service->title }}</h5>
+                      {{-- Deskripsi singkat (excerpt) --}}
                       <p class="text-sm text-slate-600 mt-2">{{ $service->excerpt }}</p>
+                      {{-- Link untuk melihat detail service --}}
                       <div class="mt-3"><a href="{{ route('services.show', $service->slug) }}" class="text-emerald-600 font-medium text-sm">Pelajari lebih lanjut →</a></div>
                     </div>
                   </div>
                 </article>
-              @endforeach
+                {{-- Tutup pengecekan is_published untuk bagian grid --}}
+                @endif
+                {{-- Tutup loop forelse untuk grid services --}}
+              @empty
+                {{-- Jika tidak ada services tambahan, tidak perlu menampilkan pesan --}}
+              @endforelse
             </div>
           </div>
         @endif

@@ -21,33 +21,47 @@ class ServiceController extends Controller
     }
 
     /**
-     * Daftar layanan (CRUD sederhana untuk dashboard).
+     * Daftar layanan - Livewire akan menangani semua CRUD
+     * Method ini hanya menampilkan view dengan komponen Livewire
      */
     public function index()
     {
-        $services = Service::orderBy('created_at','desc')->get();
-        return view('admin.services.index', compact('services'));
+        // Livewire ServiceManager component akan menangani semua logika
+        return view('admin.services.index');
     }
 
+    /**
+     * Method create, store, update, destroy sekarang dihandle oleh Livewire
+     * Jika ingin backward compatibility, method ini bisa dihapus
+     * atau diganti dengan redirect ke halaman admin services index
+     */
     public function create()
     {
-        return view('admin.services.create');
+        // Redirect ke halaman index dimana Livewire akan menampilkan form
+        return redirect()->route('admin.services.index');
     }
 
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'title' => 'required|string|max:191',
-            'slug' => 'required|string|max:191|unique:services,slug',
-            'excerpt' => 'nullable|string',
-            'description' => 'nullable|string',
-            'icon' => 'nullable|string',
-            'is_published' => 'nullable|boolean',
-        ]);
-        $data['is_published'] = !empty($data['is_published']);
-        Service::create($data);
-        return redirect()->route('admin.services.index')->with('success','Layanan berhasil ditambahkan.');
+        // Livewire menangani store operation
+        return redirect()->route('admin.services.index');
     }
 
-    // Edit, update, delete bisa ditambahkan serupa.
+    public function edit(Service $service)
+    {
+        // Redirect ke halaman index dimana Livewire akan menampilkan form
+        return redirect()->route('admin.services.index');
+    }
+
+    public function update(Request $request, Service $service)
+    {
+        // Livewire menangani update operation
+        return redirect()->route('admin.services.index');
+    }
+
+    public function destroy(Service $service)
+    {
+        // Livewire menangani delete operation
+        return redirect()->route('admin.services.index');
+    }
 }

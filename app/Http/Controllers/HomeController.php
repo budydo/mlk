@@ -25,11 +25,15 @@ class HomeController extends Controller
         $heroContents = HomeContent::published()->get();
 
         /**
-         * Ambil layanan yang dipublikasikan, maksimal 9 untuk ditampilkan di bagian layanan utama.
+         * Ambil layanan yang dipublikasikan.
+         *
+         * Catatan: sebelumnya dibatasi `take(9)` sehingga layanan baru yang
+         * melebihi batas tidak tampil di beranda. Untuk memastikan semua
+         * layanan yang dipublikasikan muncul (dan kemudian diatur tampilan
+         * di view), kita ambil seluruh record yang berstatus publikasi.
          */
         $services = Service::where('is_published', 1)
             ->orderBy('id', 'asc')
-            ->take(9)
             ->get();
 
         /**

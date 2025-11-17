@@ -8,73 +8,60 @@ use Illuminate\Http\Request;
 
 /**
  * ServiceController untuk Editor.
+ * 
+ * Catatan: Livewire EditorServiceManager sekarang menangani semua operasi CRUD.
+ * Method di controller ini tersedia untuk backward compatibility.
  */
 class ServiceController extends Controller
 {
+    /**
+     * Daftar layanan - Livewire akan menangani semua CRUD
+     * Method ini hanya menampilkan view dengan komponen Livewire
+     */
     public function index()
     {
-        $services = Service::paginate(15);
-        return view('editor.services.index', compact('services'));
+        // Livewire EditorServiceManager component akan menangani semua logika
+        return view('editor.services.index');
     }
 
+    /**
+     * Method create, store, update, destroy sekarang dihandle oleh Livewire
+     * Jika ingin backward compatibility, method ini bisa dihapus
+     * atau diganti dengan redirect ke halaman editor services index
+     */
     public function create()
     {
-        return view('editor.services.create');
+        // Redirect ke halaman index dimana Livewire akan menampilkan form
+        return redirect()->route('editor.services.index');
     }
 
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|unique:services,slug',
-            'excerpt' => 'nullable|string',
-            'description' => 'nullable|string',
-            'icon' => 'nullable|string',
-            'image_path' => 'nullable|string',
-            'features' => 'nullable|json',
-            'is_published' => 'boolean',
-        ]);
-
-        Service::create($validated);
-
-        return redirect()->route('editor.services.index')
-            ->with('success', 'Service berhasil dibuat.');
+        // Livewire menangani store operation
+        return redirect()->route('editor.services.index');
     }
 
     public function show(Service $service)
     {
-        return view('editor.services.show', compact('service'));
+        // Redirect ke halaman index untuk edit
+        return redirect()->route('editor.services.index');
     }
 
     public function edit(Service $service)
     {
-        return view('editor.services.edit', compact('service'));
+        // Redirect ke halaman index dimana Livewire akan menampilkan form
+        return redirect()->route('editor.services.index');
     }
 
     public function update(Request $request, Service $service)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|unique:services,slug,' . $service->id,
-            'excerpt' => 'nullable|string',
-            'description' => 'nullable|string',
-            'icon' => 'nullable|string',
-            'image_path' => 'nullable|string',
-            'features' => 'nullable|json',
-            'is_published' => 'boolean',
-        ]);
-
-        $service->update($validated);
-
-        return redirect()->route('editor.services.index')
-            ->with('success', 'Service berhasil diperbarui.');
+        // Livewire menangani update operation
+        return redirect()->route('editor.services.index');
     }
 
     public function destroy(Service $service)
     {
-        $service->delete();
-
-        return redirect()->route('editor.services.index')
-            ->with('success', 'Service berhasil dihapus.');
+        // Livewire menangani delete operation
+        return redirect()->route('editor.services.index');
     }
 }
