@@ -2,16 +2,14 @@
 
 @section('content')
 <div class="container mx-auto p-4 max-w-4xl">
-    <h1 class="text-2xl font-bold mb-6">Lihat Pesan Masuk</h1>
+    <h1 class="text-2xl font-bold mb-6">Editor - Lihat Pesan Masuk</h1>
 
-    {{-- Notifikasi sukses --}}
     @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
             {{ session('success') }}
         </div>
     @endif
 
-    {{-- Pesan kontak original --}}
     <div class="bg-white shadow rounded-lg p-6 mb-6">
         <div class="grid grid-cols-2 gap-4 mb-4">
             <div>
@@ -52,7 +50,6 @@
         </div>
     </div>
 
-    {{-- Riwayat Balasan (jika ada) --}}
     @if($contactMessage->replies->count() > 0)
         <div class="bg-white shadow rounded-lg p-6 mb-6">
             <h2 class="text-lg font-semibold mb-4">Riwayat Balasan</h2>
@@ -67,16 +64,10 @@
                             </div>
                             <div class="text-right text-xs">
                                 <p>
-                                    Email: <span class="font-semibold 
-                                        {{ $reply->email_status === 'sent' ? 'text-green-600' : 'text-red-600' }}">
-                                        {{ $reply->email_status }}
-                                    </span>
+                                    Email: <span class="font-semibold {{ $reply->email_status === 'sent' ? 'text-green-600' : 'text-red-600' }}">{{ $reply->email_status }}</span>
                                 </p>
                                 <p>
-                                    WhatsApp: <span class="font-semibold 
-                                        {{ in_array($reply->whatsapp_status, ['sent', 'queued']) ? 'text-green-600' : 'text-red-600' }}">
-                                        {{ $reply->whatsapp_status }}
-                                    </span>
+                                    WhatsApp: <span class="font-semibold {{ in_array($reply->whatsapp_status, ['sent', 'queued']) ? 'text-green-600' : 'text-red-600' }}">{{ $reply->whatsapp_status }}</span>
                                 </p>
                             </div>
                         </div>
@@ -87,7 +78,6 @@
         </div>
     @endif
 
-    {{-- Form Balasan Baru --}}
     <div class="bg-white shadow rounded-lg p-6">
         <h2 class="text-lg font-semibold mb-4">Kirim Balasan</h2>
 
@@ -101,45 +91,23 @@
             </div>
         @endif
 
-        <form action="{{ route('admin.contact-messages.reply', $contactMessage) }}" method="POST">
+        <form action="{{ route('editor.contact-messages.reply', $contactMessage) }}" method="POST">
             @csrf
 
-            {{-- Textarea untuk balasan --}}
             <div class="mb-4">
-                <label for="reply" class="block text-sm font-medium text-gray-700 mb-2">
-                    Pesan Balasan
-                </label>
-                <textarea 
-                    id="reply" 
-                    name="reply" 
-                    rows="6" 
-                    class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    placeholder="Tulis pesan balasan Anda di sini..."
-                    required>{{ old('reply') }}</textarea>
+                <label for="reply" class="block text-sm font-medium text-gray-700 mb-2">Pesan Balasan</label>
+                <textarea id="reply" name="reply" rows="6" class="w-full border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Tulis pesan balasan Anda di sini..." required>{{ old('reply') }}</textarea>
                 @error('reply')
                     <p class="text-red-600 text-sm mt-1">{{ $message }}</p>
                 @enderror
-                <p class="text-gray-500 text-sm mt-1">
-                    Pesan ini akan dikirim ke:
-                    <strong>{{ $contactMessage->email }}</strong>
-                    @if($contactMessage->phone)
-                        dan WhatsApp <strong>{{ $contactMessage->phone }}</strong>
-                    @endif
+                <p class="text-gray-500 text-sm mt-1">Pesan ini akan dikirim ke: <strong>{{ $contactMessage->email }}</strong>
+                    @if($contactMessage->phone) dan WhatsApp <strong>{{ $contactMessage->phone }}</strong>@endif
                 </p>
             </div>
 
-            {{-- Tombol submit --}}
             <div class="flex items-center gap-3">
-                <button 
-                    type="submit"
-                    class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition">
-                    📤 Kirim Balasan
-                </button>
-                <a 
-                    href="{{ route('admin.contact-messages.index') }}"
-                    class="text-gray-600 hover:text-gray-800 font-medium">
-                    ← Kembali
-                </a>
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition">📤 Kirim Balasan</button>
+                <a href="{{ route('editor.contact-messages.index') }}" class="text-gray-600 hover:text-gray-800 font-medium">← Kembali</a>
             </div>
         </form>
     </div>

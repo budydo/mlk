@@ -52,6 +52,8 @@ Route::middleware(['auth', 'role:editor'])->prefix('editor')->name('editor.')->g
     Route::resource('services', App\Http\Controllers\Editor\ServiceController::class)->names('services');
     Route::resource('projects', App\Http\Controllers\Editor\ProjectController::class)->names('projects');
     Route::resource('contact-messages', App\Http\Controllers\Editor\ContactMessageController::class)->only(['index', 'show', 'destroy'])->names('contact-messages');
+    // Route untuk mengirim balasan oleh editor (mirip seperti admin)
+    Route::post('contact-messages/{contactMessage}/reply', [App\Http\Controllers\Editor\ContactMessageController::class, 'reply'])->name('contact-messages.reply');
 });
 
 // Auth routes (login, register, password, dll.)

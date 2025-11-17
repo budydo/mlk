@@ -39,12 +39,12 @@ class ReplyContactMessage extends Mailable
     public function build()
     {
         // Gunakan view sederhana (inline) untuk email balasan
+        // Ensure semua values adalah string untuk Blade engine
         return $this->subject('Balasan dari ' . config('app.name'))
-                    ->view('emails.reply-contact')
-                    ->with([
-                        'name' => $this->contact->name,
-                        'message' => $this->contact->message,
-                        'reply' => $this->replyText,
-                    ]);
+                    ->html(view('emails.reply-contact', [
+                        'name' => $this->contact->name ?? '',
+                        'message' => $this->contact->message ?? '',
+                        'reply' => $this->replyText ?? '',
+                    ])->render());
     }
 }
