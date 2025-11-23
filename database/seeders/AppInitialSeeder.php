@@ -53,14 +53,14 @@ class AppInitialSeeder extends Seeder
         );
 
         // Tambahkan anggota tim contoh (gunakan updateOrCreate)
-        TeamMember::updateOrCreate(
-            ['name'=>'Dr. Andi Wijaya'],
-            ['role'=>'Kepala Tim','photo'=>'/images/team/andi.jpg','bio'=>'Ahli lingkungan dengan pengalaman 15 tahun.']
-        );
-        TeamMember::updateOrCreate(
-            ['name'=>'Siti Rahma'],
-            ['role'=>'Spesialis Sosial','photo'=>'/images/team/siti.jpg','bio'=>'Spesialis kajian sosial dan keterlibatan masyarakat.']
-        );
+        // TeamMember::updateOrCreate(
+        //     ['name'=>'Dr. Andi Wijaya'],
+        //     ['role'=>'Kepala Tim','photo'=>'/images/team/andi.jpg','bio'=>'Ahli lingkungan dengan pengalaman 15 tahun.']
+        // );
+        // TeamMember::updateOrCreate(
+        //     ['name'=>'Siti Rahma'],
+        //     ['role'=>'Spesialis Sosial','photo'=>'/images/team/siti.jpg','bio'=>'Spesialis kajian sosial dan keterlibatan masyarakat.']
+        // );
 
         // Konten home akan diisi oleh HomeContentSeeder
         $this->command->info('Seeder awal selesai: user, layanan, proyek, dan tim selesai ditambahkan.');

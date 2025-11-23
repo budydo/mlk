@@ -5,6 +5,9 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Database\Seeders\AppInitialSeeder;
+use Database\Seeders\PostSeeder;
+
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,7 +23,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AppInitialSeeder::class,
             HomeContentSeeder::class,
-            \Database\Seeders\PostSeeder::class,
+            PostSeeder::class,
             FeaturedProjectSeeder::class,
             CompleteServiceSeeder::class,
             ServiceImageSeeder::class,

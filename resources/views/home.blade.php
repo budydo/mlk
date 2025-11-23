@@ -380,10 +380,13 @@
         </div>
 
         {{-- Jika variable $posts tersedia, tampilkan, jika tidak tampilkan placeholder --}}
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
           @if(isset($posts) && count($posts) > 0)
             @foreach($posts->take(3) as $post)
               <article class="bg-white rounded-xl p-4 shadow">
+                @if($post->cover_image)
+                  <img src="{{ imageUrl($post->cover_image) }}" alt="{{ $post->title }}" class="w-full h-44 object-cover mb-2" />
+                @endif
                 <h4 class="font-semibold">{{ $post->title }}</h4>
                 <p class="mt-2 text-sm text-slate-600 line-clamp-3">{{ $post->excerpt ?? Str::limit(strip_tags($post->content ?? ''), 120) }}</p>
                 <div class="mt-3"><a href="{{ route('blog.show', $post->slug) }}" class="text-emerald-600 text-sm">Baca →</a></div>
