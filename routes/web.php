@@ -8,6 +8,7 @@ use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\BlogController;
+use Illuminate\Http\Response;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,6 +53,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->names('users');
     Route::resource('services', App\Http\Controllers\Admin\ServiceController::class)->names('services');
     Route::resource('projects', App\Http\Controllers\Admin\ProjectController::class)->names('projects');
+    // Route untuk manajemen blog posts di admin
+    Route::get('posts', fn() => view('admin.posts'))->name('posts.index');
     Route::resource('contact-messages', App\Http\Controllers\Admin\ContactMessageController::class)->only(['index','show','destroy'])->names('contact-messages');
     Route::post('contact-messages/{contactMessage}/reply', [App\Http\Controllers\Admin\ContactMessageController::class, 'reply'])->name('contact-messages.reply');
 });
@@ -62,6 +65,8 @@ Route::middleware(['auth', 'role:editor'])->prefix('editor')->name('editor.')->g
     Route::resource('home-contents', App\Http\Controllers\Editor\HomeContentController::class)->names('home-contents');
     Route::resource('services', App\Http\Controllers\Editor\ServiceController::class)->names('services');
     Route::resource('projects', App\Http\Controllers\Editor\ProjectController::class)->names('projects');
+    // Route untuk manajemen blog posts di editor
+    Route::get('posts', fn() => view('editor.posts'))->name('posts.index');
     Route::resource('contact-messages', App\Http\Controllers\Editor\ContactMessageController::class)->only(['index', 'show', 'destroy'])->names('contact-messages');
     // Route untuk mengirim balasan oleh editor (mirip seperti admin)
     Route::post('contact-messages/{contactMessage}/reply', [App\Http\Controllers\Editor\ContactMessageController::class, 'reply'])->name('contact-messages.reply');
@@ -69,3 +74,20 @@ Route::middleware(['auth', 'role:editor'])->prefix('editor')->name('editor.')->g
 
 // Auth routes (login, register, password, dll.)
 require __DIR__.'/auth.php';
+
+Route::get('/_debug/php-info', function () {
+    ob_start();
+    phpinfo();
+    $html = ob_get_clean();
+    return new Response($html);
+});
+
+Route::get('/_debug/php-meta', function () {
+    return response()->json([
+        'php_binary' => PHP_BINARY,
+        'php_version' => PHP_VERSION,
+        'sapi' => PHP_SAPI,
+        'ini_loaded_file' => php_ini_loaded_file(),
+        'loaded_extensions' => get_loaded_extensions(),
+    ]);
+});

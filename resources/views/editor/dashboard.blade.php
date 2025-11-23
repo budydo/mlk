@@ -6,7 +6,7 @@
 <section class="py-10">
   <div class="max-w-6xl mx-auto px-4 sm:px-6">
     <h1 class="text-3xl font-extrabold mb-2">Dashboard Editor</h1>
-    <p class="text-gray-600 mb-6">Kelola konten home, layanan, proyek, dan pesan kontak.</p>
+    <p class="text-gray-600 mb-6">Kelola konten home, layanan, proyek, blog, dan pesan kontak.</p>
 
     <!-- Statistik Kartu -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
@@ -58,10 +58,18 @@
         </div>
       </a>
 
+      <a href="{{ route('editor.posts.index') }}" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6">
+        <h3 class="text-lg font-semibold text-gray-900">📝 Blog</h3>
+        <p class="mt-2 text-gray-600 text-sm">Kelola postingan dan artikel blog.</p>
+        <div class="mt-4 inline-block bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+          {{ $postsCount }} postingan
+        </div>
+      </a>
+
       <a href="{{ route('editor.contact-messages.index') }}" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6">
         <h3 class="text-lg font-semibold text-gray-900">💬 Pesan Kontak</h3>
         <p class="mt-2 text-gray-600 text-sm">Lihat dan kelola pesan dari pengunjung.</p>
-        <div class="mt-4 inline-block bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+        <div class="mt-4 inline-block bg-gray-100 text-gray-800 text-xs px-3 py-1 rounded-full">
           {{ $messagesCount }} pesan
         </div>
       </a>

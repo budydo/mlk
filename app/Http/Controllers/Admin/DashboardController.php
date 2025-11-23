@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\HomeContent;
 use App\Models\Service;
 use App\Models\Project;
+use App\Models\Post;
 use App\Models\ContactMessage;
 use Illuminate\Http\Request;
 
@@ -21,11 +22,13 @@ class DashboardController extends Controller
         $editorsCount = \App\Models\User::where('role', 'editor')->count();
         $servicesCount = Service::count();
         $projectsCount = Project::count();
+        // Tambahan: hitung jumlah posting blog
+        $postsCount = Post::count();
         $messagesCount = ContactMessage::where('is_handled', false)->count();
 
         return view('admin.dashboard', compact(
             'usersCount', 'adminsCount', 'editorsCount',
-            'servicesCount', 'projectsCount', 'messagesCount'
+            'servicesCount', 'projectsCount', 'postsCount', 'messagesCount'
         ));
     }
 }

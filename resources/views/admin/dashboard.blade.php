@@ -58,12 +58,20 @@
         </div>
       </a>
 
+      <a href="{{ route('admin.posts.index') }}" class="block bg-white rounded-lg shadow hover:shadow-lg transition p-6">
+        <h3 class="text-lg font-semibold text-gray-900">📝 Kelola Blog</h3>
+        <p class="mt-2 text-gray-600 text-sm">Kelola postingan dan artikel blog.</p>
+        <div class="mt-4 inline-block bg-orange-100 text-orange-800 text-xs px-3 py-1 rounded-full">
+          {{ $postsCount }} postingan
+        </div>
+      </a>
+
       <div class="bg-white rounded-lg shadow p-6">
         <h3 class="text-lg font-semibold text-gray-900">📈 Ringkasan</h3>
         <div class="mt-4 space-y-2 text-sm text-gray-600">
           <p>• {{ $usersCount }} Total Pengguna</p>
           <p>• {{ $adminsCount }} Admin, {{ $editorsCount }} Editor</p>
-          <p>• {{ $servicesCount }} Layanan, {{ $projectsCount }} Proyek</p>
+          <p>• {{ $servicesCount }} Layanan, {{ $projectsCount }} Proyek, {{ $postsCount }} Blog</p>
           <p>• {{ $messagesCount }} Pesan Tertunda</p>
         </div>
       </div>
