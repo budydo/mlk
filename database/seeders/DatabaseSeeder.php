@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             AppInitialSeeder::class,
             HomeContentSeeder::class,
+            \Database\Seeders\PostSeeder::class,
             FeaturedProjectSeeder::class,
             CompleteServiceSeeder::class,
             ServiceImageSeeder::class,

@@ -15,23 +15,23 @@ class HomeContentImageSeeder extends Seeder
         $homeContents = [
             [
                 'order' => 1,
-                'image_path' => 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1920&auto=format&fit=crop',
+                'image_path' => 'images/home/tentang.png',
             ],
             [
                 'order' => 2,
-                'image_path' => 'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1920&auto=format&fit=crop',
+                'image_path' => 'images/home/8.png',
             ],
             [
                 'order' => 3,
-                'image_path' => 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1920&auto=format&fit=crop',
+                'image_path' => 'images/home/3.png',
             ],
             [
                 'order' => 4,
-                'image_path' => 'https://images.unsplash.com/photo-1489824904134-891ab64532f1?q=80&w=1920&auto=format&fit=crop',
+                'image_path' => 'images/home/10.png',
             ],
             [
                 'order' => 5,
-                'image_path' => 'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=1920&auto=format&fit=crop',
+                'image_path' => 'images/home/5.png',
             ],
         ];
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\HomeContent;
 use App\Models\Service;
 use App\Models\Project;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 /**
@@ -44,6 +45,9 @@ class HomeController extends Controller
             ->take(12)
             ->get();
 
-        return view('home', compact('heroContents', 'services', 'featuredProjects'));
+        // Ambil 3 artikel terbaru untuk ditampilkan di beranda (jika ada)
+        $posts = Post::published()->orderBy('published_at','desc')->take(3)->get();
+
+        return view('home', compact('heroContents', 'services', 'featuredProjects', 'posts'));
     }
 }

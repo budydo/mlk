@@ -16,12 +16,22 @@
 
       <div>
         <h3 class="text-xl font-semibold">Visi</h3>
-        <div class="text-slate-600 mt-2">{!! nl2br(e(optional($vision)->value ?? '-')) !!}</div>
+        <div class="text-slate-600 mt-2">Menjadi perusahaan yang terus berkembang dan maju dengan mengutamakan kualitas dan 
+kepuasan pelanggan serta untuk mensejahterakan karyawan. Menjadi perusahaan swasta 
+Indonesia yang unggul, professional dan terdepan dalam melayani klien maupun mitra 
+bisnis.</div>
       </div>
 
       <div>
         <h3 class="text-xl font-semibold">Misi</h3>
-        <div class="text-slate-600 mt-2">{!! nl2br(e(optional($mission)->value ?? '-')) !!}</div>
+        <div class="text-slate-600 mt-2">
+          <ul class="list-disc list-inside space-y-2">
+            <li>Memberikan pelayanan terbaik secara professional, sistematis dan teknologi yang terintegrasi.</li>
+            <li>Menghadirkan kegiatan operasional dan layanan yang terencana dan tepat sasaran.</li>
+            <li>Menjalin hubungan kerjasama yang baik dengan partner jangka pendek maupun jangka panjang.</li>
+            <li>Memberikan keuntungan yang maksimal bagi perusahaan dan seluruh Stakeholder.</li>
+          </ul>
+        </div>
       </div>
 
       <div>
@@ -30,13 +40,19 @@
           @foreach($team as $member)
             <div class="bg-white p-4 rounded-lg shadow">
               @if($member->photo)
-                <img src="{{ $member->photo }}" alt="{{ $member->name }}" class="w-full h-36 object-cover rounded" />
+                <img src="{{ $member->photo }}" alt="{{ $member->name }}" class="w-full h-60 object-cover rounded" />
               @endif
               <h4 class="mt-3 font-semibold">{{ $member->name }}</h4>
               <div class="text-sm text-slate-500">{{ $member->role }}</div>
               <p class="text-sm mt-2 text-slate-600">{{ Str::limit($member->bio, 120) }}</p>
             </div>
           @endforeach
+          <div class="bg-white p-4 rounded-lg shadow">
+            <img src="https://images.unsplash.com/photo-1615109398623-88346a601842?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" class="w-full h-60 object-cover rounded" />
+            <h4 class="mt-3 font-semibold">Alexis Sancez</h4>
+            <div class="text-sm text-slate-500">Sekertaris</div>
+            <p class="text-sm mt-2 text-slate-600">Profesional berpengalaman dalam mengelola administrasi dan koordinasi tim.</p>
+          </div>
         </div>
       </div>
     </div>

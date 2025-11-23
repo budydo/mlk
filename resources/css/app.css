@@ -53,6 +53,47 @@
     transform: translateY(0);
 }
 
+/*
+    Styling untuk navigasi aktif dan hover
+    - Diletakkan di file CSS utama yang diproses Tailwind agar `@apply` dikompilasi.
+    - Gunakan @layer components agar utilities yang digabungkan termasuk ke dalam build.
+*/
+@layer components {
+    /*
+        .nav-active: styling block hijau ketika link aktif (ditambahkan oleh scrollspy JS)
+        - bg-emerald-600: background hijau tema
+        - text-white: teks putih untuk kontras
+        - shadow-md: depth agar terlihat seperti blok
+        - transition: transisi halus saat berubah state
+    */
+    .nav-active {
+        @apply bg-emerald-600 text-white shadow-md transition-transform duration-300 ease-in-out;
+    }
+
+    /* Hover untuk link aktif: naik sedikit dan shadow lebih besar */
+    .nav-active:hover {
+        @apply shadow-lg;
+        transform: translateY(-2px);
+    }
+
+    /* Hover untuk link yang tidak aktif: beri background ringan dan shadow */
+    .desktop-nav a:not(.nav-active):hover {
+        @apply bg-emerald-50 text-emerald-700 shadow-sm;
+    }
+
+    /*
+        Pastikan teks menjadi putih pada link yang aktif di desktop dan mobile.
+        - Gunakan selektor lebih spesifik agar meng-override kelas teks default (mis. text-gray-700).
+        - Tambahkan !important pada color sebagai fallback bila ada aturan yang lebih spesifik.
+    */
+    .desktop-nav a.nav-active,
+    .mobile-nav a.nav-active {
+        @apply text-white;
+        /* fallback CSS property untuk memastikan warna putih terpakai */
+        color: #ffffff !important;
+    }
+}
+
 /* Service Section Animations */
 .reveal .service-image {
     opacity: 0;

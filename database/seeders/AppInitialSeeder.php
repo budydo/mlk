@@ -34,13 +34,13 @@ class AppInitialSeeder extends Seeder
         );
 
         // Tambahkan beberapa layanan contoh (gunakan updateOrCreate)
-        $services = [
-            ['title'=>'AMDAL & Kajian Dampak','slug'=>'amdal-kajian-dampak','excerpt'=>'Kajian dampak lingkungan komprehensif.','description'=>'Deskripsi layanan AMDAL dan manfaatnya.','icon'=>'/images/icons/amdal.svg'],
-            ['title'=>'Restorasi Lahan','slug'=>'restorasi-lahan','excerpt'=>'Program revegetasi dan restorasi ekosistem.','description'=>'Deskripsi restorasi lahan.','icon'=>'/images/icons/restorasi.svg'],
-        ];
-        foreach($services as $s) { 
-            Service::updateOrCreate(['slug' => $s['slug']], $s);
-        }
+        // $services = [
+        //     ['title'=>'AMDAL & Kajian Dampak','slug'=>'amdal-kajian-dampak','excerpt'=>'Kajian dampak lingkungan komprehensif.','description'=>'Deskripsi layanan AMDAL dan manfaatnya.','icon'=>'/images/icons/amdal.svg'],
+        //     ['title'=>'Restorasi Lahan','slug'=>'restorasi-lahan','excerpt'=>'Program revegetasi dan restorasi ekosistem.','description'=>'Deskripsi restorasi lahan.','icon'=>'/images/icons/restorasi.svg'],
+        // ];
+        // foreach($services as $s) { 
+        //     Service::updateOrCreate(['slug' => $s['slug']], $s);
+        // }
 
         // Tambahkan beberapa proyek contoh (gunakan updateOrCreate)
         Project::updateOrCreate(
