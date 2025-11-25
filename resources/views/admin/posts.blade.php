@@ -1,6 +1,6 @@
 {{-- resources/views/admin/posts.blade.php --}}
 {{-- Halaman untuk admin mengelola blog posts --}}
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title','Kelola Blog - Admin')
 

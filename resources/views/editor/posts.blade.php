@@ -1,6 +1,6 @@
 {{-- resources/views/editor/posts.blade.php --}}
 {{-- Halaman untuk editor mengelola blog posts --}}
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title','Kelola Blog - Editor')
 
