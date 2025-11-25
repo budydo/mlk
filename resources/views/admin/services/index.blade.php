@@ -1,5 +1,5 @@
 {{-- resources/views/admin/services/index.blade.php --}}
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title','Kelola Layanan')
 

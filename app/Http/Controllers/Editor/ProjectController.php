@@ -7,72 +7,78 @@ use App\Models\Project;
 use Illuminate\Http\Request;
 
 /**
- * ProjectController untuk Editor.
+ * ProjectController untuk Editor
+ * 
+ * Catatan: Livewire EditorProjectManager sekarang menangani semua operasi CRUD.
+ * Method di controller ini tersedia untuk backward compatibility dan hanya
+ * menampilkan view dengan komponen Livewire EditorProjectManager.
  */
 class ProjectController extends Controller
 {
+    /**
+     * Daftar proyek - Livewire EditorProjectManager menangani semua CRUD
+     * Method ini hanya menampilkan view dengan komponen Livewire
+     * 
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        $projects = Project::paginate(15);
-        return view('editor.projects.index', compact('projects'));
+        // Livewire EditorProjectManager component akan menangani semua logika CRUD
+        // termasuk: create, store, update, destroy, delete
+        return view('editor.projects.index');
     }
 
+    /**
+     * Redirect ke index - Livewire menampilkan form create di sana
+     */
     public function create()
     {
-        return view('editor.projects.create');
+        // Redirect ke halaman index dimana Livewire akan menampilkan form create
+        return redirect()->route('editor.projects.index');
     }
 
+    /**
+     * Store operation - dihandle oleh Livewire EditorProjectManager
+     */
     public function store(Request $request)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|unique:projects,slug',
-            'excerpt' => 'nullable|string',
-            'description' => 'nullable|string',
-            'cover_image' => 'nullable|string',
-            'is_published' => 'boolean',
-            'is_featured' => 'boolean',
-        ]);
-
-        Project::create($validated);
-
-        return redirect()->route('editor.projects.index')
-            ->with('success', 'Project berhasil dibuat.');
+        // Livewire menangani store operation secara real-time
+        return redirect()->route('editor.projects.index');
     }
 
+    /**
+     * Show operation - dihandle oleh Livewire EditorProjectManager
+     */
     public function show(Project $project)
     {
-        return view('editor.projects.show', compact('project'));
+        // Redirect ke halaman index untuk edit
+        return redirect()->route('editor.projects.index');
     }
 
+    /**
+     * Edit operation - dihandle oleh Livewire EditorProjectManager
+     */
     public function edit(Project $project)
     {
-        return view('editor.projects.edit', compact('project'));
+        // Redirect ke halaman index dimana Livewire akan menampilkan form edit
+        return redirect()->route('editor.projects.index');
     }
 
+    /**
+     * Update operation - dihandle oleh Livewire EditorProjectManager
+     */
     public function update(Request $request, Project $project)
     {
-        $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|unique:projects,slug,' . $project->id,
-            'excerpt' => 'nullable|string',
-            'description' => 'nullable|string',
-            'cover_image' => 'nullable|string',
-            'is_published' => 'boolean',
-            'is_featured' => 'boolean',
-        ]);
-
-        $project->update($validated);
-
-        return redirect()->route('editor.projects.index')
-            ->with('success', 'Project berhasil diperbarui.');
+        // Livewire menangani update operation secara real-time
+        return redirect()->route('editor.projects.index');
     }
 
+    /**
+     * Delete operation - dihandle oleh Livewire EditorProjectManager
+     */
     public function destroy(Project $project)
     {
-        $project->delete();
-
-        return redirect()->route('editor.projects.index')
-            ->with('success', 'Project berhasil dihapus.');
+        // Livewire menangani delete operation secara real-time
+        return redirect()->route('editor.projects.index');
     }
 }

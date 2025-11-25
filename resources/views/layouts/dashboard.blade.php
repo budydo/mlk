@@ -16,11 +16,18 @@
     - Header putih minimalis, hanya bell & user
     - Konten utama rapi dan responsif
 -->
-<div x-data="{ sidebarOpen: true }" class="min-h-screen flex">
+<!--
+    Wrapper utama: gunakan `h-screen` agar layout memenuhi tinggi viewport.
+    Dengan ini kita bisa membuat kolom kanan (konten) dan sidebar memiliki
+    area scroll terpisah menggunakan `overflow-auto` pada konten dan
+    `overflow-y-auto` pada nav sidebar.
+-->
+<div x-data="{ sidebarOpen: true }" class="h-screen flex">
     <!-- Sidebar -->
-    <aside :class="sidebarOpen ? 'w-64' : 'w-20'" class="h-screen bg-white border-r border-gray-200 flex flex-col transition-all duration-200 shadow-lg z-20">
+    <!-- Sidebar: tetap pada kolom kiri, tinggi disesuaikan oleh parent (`h-screen`) -->
+    <aside :class="sidebarOpen ? 'w-64' : 'w-20'" class="h-full bg-white border-r border-gray-200 flex flex-col transition-all duration-200 shadow-lg z-20 sticky top-0">
         <!-- Logo dan tombol toggle -->
-        <div class="flex items-center justify-between h-16 px-6 border-b">
+        <div class="flex items-center justify-between h-16 px-6 ">
             <a href="{{ route(request()->is('admin*') ? 'admin.dashboard' : 'editor.dashboard') }}" class="flex items-center gap-3">
                 <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-indigo-100">
                     <span class="text-2xl font-extrabold text-indigo-600">M</span>
@@ -38,8 +45,8 @@
         </div>
         <!-- Section judul menu -->
         <div x-show="sidebarOpen" class="px-8 pt-6 pb-2 text-xs font-semibold text-gray-400 tracking-widest uppercase">Menu</div>
-        <!-- Menu Sidebar -->
-        <nav class="flex-1 flex flex-col gap-1 px-2 pb-6">
+        <!-- Menu Sidebar: area menu bisa discroll sendiri saat panjang -->
+        <nav class="flex-1 flex flex-col gap-1 px-2 pb-6 overflow-y-auto">
             <!-- Menu utama dengan SVG/heroicons -->
             <a href="#" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
                 <!-- Home Icon -->
@@ -76,7 +83,8 @@
         </nav>
     </aside>
     <!-- Konten Utama -->
-    <div class="flex-1 flex flex-col min-h-screen">
+    <!-- Konten kanan: kolom vertikal dengan header, area konten (scrollable), dan footer -->
+    <div class="flex-1 flex flex-col h-screen">
         <!-- Header modern ala Spike Tailwind -->
         <header class="flex items-center justify-between h-16 px-8 bg-white border-b border-gray-200 shadow-sm">
             <div class="flex-1"></div>
@@ -102,10 +110,16 @@
                 </div>
             </div>
         </header>
-        <!-- Konten Halaman -->
-        <main class="flex-1 p-8 bg-gray-50 min-h-screen">
+        <!-- Konten Halaman: buat area utama yang dapat discroll terpisah dari sidebar -->
+        <main class="flex-1 overflow-auto p-8 bg-gray-50">
             @yield('content')
         </main>
+
+        <!-- Footer konten: selalu berada di bawah kolom konten (bukan bawah seluruh halaman) -->
+        <footer class="bg-white border-t border-gray-200 p-4 text-sm text-gray-500">
+            {{-- Komentar: ganti tahun atau nama sesuai kebutuhan --}}
+            &copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All rights reserved.
+        </footer>
     </div>
 </div>
 @stack('scripts')
