@@ -23,11 +23,11 @@
     `overflow-y-auto` pada nav sidebar.
 -->
 <div x-data="{ sidebarOpen: true }" class="h-screen flex">
-    <!-- Sidebar -->
-    <!-- Sidebar: tetap pada kolom kiri, tinggi disesuaikan oleh parent (`h-screen`) -->
+    <!-- Sidebar: tetap pada kolom kiri, tinggi disesuaikan oleh parent (`h-screen`).
+         Sidebar dan header memiliki tinggi yang sama (h-16) dan border untuk alignment. -->
     <aside :class="sidebarOpen ? 'w-64' : 'w-20'" class="h-full bg-white border-r border-gray-200 flex flex-col transition-all duration-200 shadow-lg z-20 sticky top-0">
-        <!-- Logo dan tombol toggle -->
-        <div class="flex items-center justify-between h-16 px-6 ">
+        <!-- Logo dan tombol toggle: border-b agar selaras dengan header di kolom kanan -->
+        <div class="flex items-center justify-between h-16 px-6 border-b border-gray-200 shrink-0">
             <a href="{{ route(request()->is('admin*') ? 'admin.dashboard' : 'editor.dashboard') }}" class="flex items-center gap-3">
                 <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-indigo-100">
                     <span class="text-2xl font-extrabold text-indigo-600">M</span>
@@ -82,11 +82,12 @@
             @endif
         </nav>
     </aside>
-    <!-- Konten Utama -->
-    <!-- Konten kanan: kolom vertikal dengan header, area konten (scrollable), dan footer -->
+    <!-- Konten kanan: kolom vertikal dengan header, area konten (scrollable), dan footer.
+         Gunakan `h-screen` agar kolom ini mengambil sisa tinggi setelah sidebar. -->
     <div class="flex-1 flex flex-col h-screen">
-        <!-- Header modern ala Spike Tailwind -->
-        <header class="flex items-center justify-between h-16 px-8 bg-white border-b border-gray-200 shadow-sm">
+        <!-- Header modern ala Spike Tailwind: gunakan `shrink-0` agar tidak ikut scroll.
+             Tinggi header (h-16) harus sama dengan logo section sidebar agar align rapi. -->
+        <header class="flex items-center justify-between h-16 px-8 bg-white border-b border-gray-200 shadow-sm shrink-0">
             <div class="flex-1"></div>
             <!-- Aksi kanan: bell & user -->
             <div class="flex items-center gap-4">
@@ -110,14 +111,16 @@
                 </div>
             </div>
         </header>
-        <!-- Konten Halaman: buat area utama yang dapat discroll terpisah dari sidebar -->
+        <!-- Konten Halaman: buat area utama yang dapat discroll terpisah dari sidebar.
+             Gunakan `overflow-auto` agar area ini yang discroll, bukan seluruh halaman. -->
         <main class="flex-1 overflow-auto p-8 bg-gray-50">
             @yield('content')
         </main>
 
-        <!-- Footer konten: selalu berada di bawah kolom konten (bukan bawah seluruh halaman) -->
-        <footer class="bg-white border-t border-gray-200 p-4 text-sm text-gray-500">
-            {{-- Komentar: ganti tahun atau nama sesuai kebutuhan --}}
+        <!-- Footer konten: selalu berada di bawah kolom konten dengan shrink-0 agar tidak ikut mengecil.
+             `shrink-0` penting agar footer tidak tiba-tiba hilang saat konten panjang. -->
+        <footer class="bg-white border-t border-gray-200 p-4 text-center text-sm text-gray-500 shrink-0">
+            {{-- Komentar: &copy; menampilkan symbol ©, ganti tahun atau nama sesuai kebutuhan Anda --}}
             &copy; {{ date('Y') }} {{ config('app.name', 'Laravel') }}. All rights reserved.
         </footer>
     </div>
