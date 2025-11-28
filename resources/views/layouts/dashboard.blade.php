@@ -48,33 +48,33 @@
         <!-- Menu Sidebar: area menu bisa discroll sendiri saat panjang -->
         <nav class="flex-1 flex flex-col gap-1 px-2 pb-6 overflow-y-auto">
             <!-- Menu utama dengan SVG/heroicons -->
-            <a href="#" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
+            <a href="{{ route(request()->is('admin*') ? 'admin.dashboard' : 'editor.home-contents.index') }}" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
                 <!-- Home Icon -->
                 <svg class="w-6 h-6 group-hover:text-indigo-600 text-gray-400 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l2-2m0 0l7-7 7 7m-9 2v6a2 2 0 002 2h4a2 2 0 002-2v-6m-5 0h6"/></svg>
                 <span x-show="sidebarOpen" class="transition-all text-base">Home Contents</span>
             </a>
-            <a href="#" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
+            <a href="{{ route(request()->is('admin*') ? 'admin.services.index' : 'editor.services.index') }}" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
                 <!-- Cog Icon (Layanan) -->
                 <svg class="w-6 h-6 group-hover:text-indigo-600 text-gray-400 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0a1.724 1.724 0 002.573.965c.797-.602 1.885.091 1.623.986a1.724 1.724 0 001.516 2.36c.958.11 1.32 1.36.564 1.93a1.724 1.724 0 000 2.764c.756.57.394 1.82-.564 1.93a1.724 1.724 0 00-1.516 2.36c.262.895-.826 1.588-1.623.986a1.724 1.724 0 00-2.573.965c-.3.921-1.603.921-1.902 0a1.724 1.724 0 00-2.573-.965c-.797.602-1.885-.091-1.623-.986a1.724 1.724 0 00-1.516-2.36c-.958-.11-1.32-1.36-.564-1.93a1.724 1.724 0 000-2.764c-.756-.57-.394-1.82.564-1.93a1.724 1.724 0 001.516-2.36c-.262-.895.826-1.588 1.623-.986a1.724 1.724 0 002.573-.965z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 <span x-show="sidebarOpen" class="transition-all text-base">Layanan</span>
             </a>
-            <a href="#" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
+            <a href="{{ route(request()->is('admin*') ? 'admin.projects.index' : 'editor.projects.index') }}" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
                 <!-- Briefcase Icon (Proyek) -->
                 <svg class="w-6 h-6 group-hover:text-indigo-600 text-gray-400 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 3v4M8 3v4m-6 4h20"/></svg>
                 <span x-show="sidebarOpen" class="transition-all text-base">Proyek</span>
             </a>
-            <a href="#" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
+            <a href="{{ route(request()->is('admin*') ? 'admin.posts.index' : 'editor.posts.index') }}" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
                 <!-- Document Icon (Blog) -->
                 <svg class="w-6 h-6 group-hover:text-indigo-600 text-gray-400 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10M7 11h10M7 15h6"/><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg>
                 <span x-show="sidebarOpen" class="transition-all text-base">Blog</span>
             </a>
-            <a href="#" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
+            <a href="{{ route(request()->is('admin*') ? 'admin.contact-messages.index' : 'editor.contact-messages.index') }}" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
                 <!-- Mail Icon (Kontak) -->
                 <svg class="w-6 h-6 group-hover:text-indigo-600 text-gray-400 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                 <span x-show="sidebarOpen" class="transition-all text-base">Kontak</span>
             </a>
             @if(request()->is('admin*'))
-            <a href="#" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
+            <a href="{{ route('admin.projects.index') }}" class="flex items-center px-6 py-2.5 rounded-lg hover:bg-indigo-50 text-gray-700 font-medium gap-4 transition group">
                 <!-- Cog Icon (Manajemen Proyek) -->
                 <svg class="w-6 h-6 group-hover:text-indigo-600 text-gray-400 transition" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0a1.724 1.724 0 002.573.965c.797-.602 1.885.091 1.623.986a1.724 1.724 0 001.516 2.36c.958.11 1.32 1.36.564 1.93a1.724 1.724 0 000 2.764c.756.57.394 1.82-.564 1.93a1.724 1.724 0 00-1.516 2.36c.262.895-.826 1.588-1.623.986a1.724 1.724 0 00-2.573.965c-.3.921-1.603.921-1.902 0a1.724 1.724 0 00-2.573-.965c-.797.602-1.885-.091-1.623-.986a1.724 1.724 0 00-1.516-2.36c-.958-.11-1.32-1.36-.564-1.93a1.724 1.724 0 000-2.764c-.756-.57-.394-1.82.564-1.93a1.724 1.724 0 001.516-2.36c-.262-.895.826-1.588 1.623-.986a1.724 1.724 0 002.573-.965z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 <span x-show="sidebarOpen" class="transition-all text-base">Manajemen Proyek</span>
