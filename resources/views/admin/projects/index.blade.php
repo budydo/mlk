@@ -1,5 +1,5 @@
 {{-- resources/views/admin/projects/index.blade.php --}}
-@extends('layouts.app')
+@extends('layouts.dashboard')
 
 @section('title','Kelola Proyek')
 
