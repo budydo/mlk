@@ -26,10 +26,10 @@
 Credentials Anda saat ini adalah **PLACEHOLDER/TEST VALUES** dan TIDAK BISA mengirim pesan sebenarnya!
 
 ```env
-# ❌ INVALID - JANGAN GUNAKAN INI!
-TWILIO_ACCOUNT_SID=G3ozx5xtEqGAGi3VdsQGKGHxuwqSJDTn38vEUEREQweQ
-TWILIO_AUTH_TOKEN=***REMOVED***
-TWILIO_WHATSAPP_FROM=+14155238886
+# Nilai sensitif telah dihapus dari repo
+TWILIO_ACCOUNT_SID=REDACTED_TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN=REDACTED_TWILIO_AUTH_TOKEN
+TWILIO_WHATSAPP_FROM=
 ```
 
 ### Solution: Get Real Credentials from Twilio

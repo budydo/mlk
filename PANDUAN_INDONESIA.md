@@ -30,9 +30,9 @@
 3. Verifikasi email
 4. Login ke dashboard
 
-DAPAT:
-- Account SID "***REMOVED***"
-- Auth Token "EXASTXETE6AUWS9JVE1GZ3HH";
+- DAPAT:
+- Account SID "REDACTED_TWILIO_ACCOUNT_SID"
+- Auth Token "REDACTED_TWILIO_AUTH_TOKEN";
 - WhatsApp Sandbox Number 14155238886
 ```
 

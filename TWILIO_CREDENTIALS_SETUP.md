@@ -4,15 +4,16 @@
 
 Pesan balasan Anda tidak sampai ke nomor WhatsApp karena credentials Twilio yang digunakan tidak valid.
 
-Credentials saat ini di `.env`:
+Credentials saat ini di `.env` telah dihapus untuk keamanan:
 
 ```
-TWILIO_ACCOUNT_SID=G3ozx5xtEqGAGi3VdsQGKGHxuwqSJDTn38vEUEREQweQ
-TWILIO_AUTH_TOKEN=***REMOVED***
-TWILIO_WHATSAPP_FROM=+14155238886
+# Nilai sensitif telah dihapus dan diganti placeholder
+TWILIO_ACCOUNT_SID=REDACTED_TWILIO_ACCOUNT_SID
+TWILIO_AUTH_TOKEN=REDACTED_TWILIO_AUTH_TOKEN
+TWILIO_WHATSAPP_FROM=
 ```
 
-❌ **Credentials ini adalah placeholder/test dan TIDAK valid untuk mengirim pesan sebenarnya!**
+❌ **Nilai sensitif telah dihapus dari repo — jika ingin menggunakan Twilio lagi, isi ulang kredensial baru di `.env`**
 
 ## Solusi: Dapatkan Credentials Real dari Twilio
 
