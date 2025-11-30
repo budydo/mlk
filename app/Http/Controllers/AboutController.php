@@ -12,15 +12,16 @@ class AboutController extends Controller
      */
     public function index()
     {
-        // Ambil konten home yang relevan jika tersedia
-        $history = HomeContent::where('key','history')->first();
-        $vision = HomeContent::where('key','vision')->first();
-        $mission = HomeContent::where('key','mission')->first();
+        // // Ambil konten home yang relevan jika tersedia
+        // $history = HomeContent::where('key','history')->first();
+        // $vision = HomeContent::where('key','vision')->first();
+        // $mission = HomeContent::where('key','mission')->first();
 
         // Ambil anggota tim yang aktif
         $team = TeamMember::where('is_active', true)->get();
 
-        return view('about', compact('history','vision','mission','team'));
+        // return view('about', compact('history','vision','mission','team'));
+        return view('about', compact('team'));
     }
 }
 

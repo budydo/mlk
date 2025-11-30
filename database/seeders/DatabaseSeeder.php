@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             FeaturedProjectSeeder::class,
             CompleteServiceSeeder::class,
             ServiceImageSeeder::class,
-            ProjectImageSeeder::class,
+            // ProjectImageSeeder::class,
             HomeContentImageSeeder::class,
             TeamMemberImageSeeder::class,
             ContactMessageSeeder::class,

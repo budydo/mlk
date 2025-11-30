@@ -43,14 +43,14 @@ class AppInitialSeeder extends Seeder
         // }
 
         // Tambahkan beberapa proyek contoh (gunakan updateOrCreate)
-        Project::updateOrCreate(
-            ['slug'=>'restorasi-pesisir-x'],
-            ['title'=>'Restorasi Pesisir — Kabupaten X','cover_image'=>'/images/projects/pesisir.jpg','excerpt'=>'Revegetasi hutan mangrove.', 'description'=>'Deskripsi proyek restorasi pesisir.']
-        );
-        Project::updateOrCreate(
-            ['slug'=>'amdal-pelabuhan'],
-            ['title'=>'AMDAL Pembangunan Pelabuhan','cover_image'=>'/images/projects/pelabuhan.jpg','excerpt'=>'Analisis dampak & mitigasi.', 'description'=>'Deskripsi proyek AMDAL.']
-        );
+        // Project::updateOrCreate(
+        //     ['slug'=>'restorasi-pesisir-x'],
+        //     ['title'=>'Restorasi Pesisir — Kabupaten X','cover_image'=>'/images/projects/pesisir.jpg','excerpt'=>'Revegetasi hutan mangrove.', 'description'=>'Deskripsi proyek restorasi pesisir.']
+        // );
+        // Project::updateOrCreate(
+        //     ['slug'=>'amdal-pelabuhan'],
+        //     ['title'=>'AMDAL Pembangunan Pelabuhan','cover_image'=>'/images/projects/pelabuhan.jpg','excerpt'=>'Analisis dampak & mitigasi.', 'description'=>'Deskripsi proyek AMDAL.']
+        // );
 
         // Tambahkan anggota tim contoh (gunakan updateOrCreate)
         // TeamMember::updateOrCreate(

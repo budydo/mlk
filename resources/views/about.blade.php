@@ -11,7 +11,7 @@
     <div class="mt-6 space-y-6">
       <div>
         <h3 class="text-xl font-semibold">Sejarah Perusahaan</h3>
-        <div class="text-slate-600 mt-2">{!! nl2br(e(optional($history)->value ?? 'Kami belum menambahkan sejarah perusahaan.')) !!}</div>
+        <div class="text-slate-600 mt-2">{'Kami belum menambahkan sejarah perusahaan.'}</div>
       </div>
 
       <div>
