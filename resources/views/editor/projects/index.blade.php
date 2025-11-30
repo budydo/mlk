@@ -3,6 +3,6 @@
 @section('title','Kelola Proyek')
 
 @section('content')
-    {{-- Menggunakan komponen Livewire EditorProjectManager agar konsisten dengan tampilan Layanan --}}
-    @livewire('editor-project-manager')
+    {{-- Menampilkan daftar proyek menggunakan pagination server-side (non-Livewire) --}}
+    @include('editor.projects.table')
 @endsection

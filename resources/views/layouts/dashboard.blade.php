@@ -19,6 +19,23 @@
 <!--
     Wrapper utama: gunakan `h-screen` agar layout memenuhi tinggi viewport.
     Dengan ini kita bisa membuat kolom kanan (konten) dan sidebar memiliki
+        function findLWWrapper(node) {
+            var cur = node;
+            while (cur && cur !== document.documentElement) {
+                try {
+                    if (cur.hasAttribute) {
+                        if (cur.hasAttribute('wire:id') || cur.hasAttribute('wire\\:id') || cur.hasAttribute('wire')) {
+                            return cur;
+                        }
+                    }
+                } catch (e) {
+                    // ignore invalid attribute checks and continue climbing
+                }
+                cur = cur.parentElement;
+            }
+            return null;
+        }
+
     area scroll terpisah menggunakan `overflow-auto` pada konten dan
     `overflow-y-auto` pada nav sidebar.
 -->
@@ -32,18 +49,12 @@
                 <span class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-indigo-100">
                     <span class="text-2xl font-extrabold text-indigo-600">M</span>
                 </span>
-                <span x-show="sidebarOpen" class="text-2xl font-bold text-gray-800 tracking-tight transition-all">LK</span>
             </a>
-            <button @click="sidebarOpen = !sidebarOpen" class="ml-2 p-2 rounded hover:bg-gray-100 focus:outline-none">
-                <svg x-show="sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-                <svg x-show="!sidebarOpen" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
+            <button @click="sidebarOpen = !sidebarOpen" class="p-1 rounded hover:bg-gray-100">
+                <svg class="w-6 h-6 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
         </div>
-        <!-- Section judul menu -->
+
         <div x-show="sidebarOpen" class="px-8 pt-6 pb-2 text-xs font-semibold text-gray-400 tracking-widest uppercase">Menu</div>
         <!-- Menu Sidebar: area menu bisa discroll sendiri saat panjang -->
         <nav class="flex-1 flex flex-col gap-1 px-2 pb-6 overflow-y-auto">
@@ -126,6 +137,7 @@
     </div>
 </div>
 @stack('scripts')
+
 <!--
     Komentar:
     - Gunakan Alpine.js untuk interaktivitas toggle sidebar dan dropdown user.

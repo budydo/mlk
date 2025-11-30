@@ -1,7 +1,13 @@
-import './bootstrap';
+import "./bootstrap";
+import Alpine from "alpinejs";
 
-import Alpine from 'alpinejs';
+// Pasang Alpine ke window jika belum ada
+if (!window.Alpine) {
+    window.Alpine = Alpine;
+}
 
-window.Alpine = Alpine;
-
-Alpine.start();
+// Guard kecil agar `Alpine.start()` tidak dipanggil lebih dari sekali
+if (!window._alpineStarted) {
+    Alpine.start();
+    window._alpineStarted = true;
+}

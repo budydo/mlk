@@ -37,7 +37,9 @@ class ProjectController extends Controller
     {
         // Livewire ProjectManager component akan menangani semua logika CRUD
         // termasuk: create, store, update, destroy, delete
-        return view('admin.projects.index');
+        // Berikan data projects paginasi untuk view blade (server-side pagination)
+        $projects = Project::orderBy('created_at', 'desc')->paginate(10);
+        return view('admin.projects.index', compact('projects'));
     }
 
     /**
@@ -72,8 +74,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        // Redirect ke halaman index dimana Livewire akan menampilkan form edit
-        return redirect()->route('admin.projects.index');
+        return view('admin.projects.edit', compact('project'));
     }
 
     /**
@@ -81,8 +82,26 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        // Livewire menangani update operation secara real-time
-        return redirect()->route('admin.projects.index');
+        // Terima partial update (mis. toggle publish) atau full edit
+        $data = $request->validate([
+            'title' => 'sometimes|required|string|max:255',
+            'slug' => 'sometimes|required|string|max:191',
+            'is_published' => 'sometimes|boolean',
+        ]);
+
+        if (array_key_exists('is_published', $data)) {
+            $project->is_published = (bool) $data['is_published'];
+        }
+        if (array_key_exists('title', $data)) {
+            $project->title = $data['title'];
+        }
+        if (array_key_exists('slug', $data)) {
+            $project->slug = $data['slug'];
+        }
+
+        $project->save();
+
+        return redirect()->route('admin.projects.index')->with('success', 'Project berhasil diperbarui.');
     }
 
     /**
@@ -90,7 +109,13 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        // Livewire menangani delete operation secara real-time
-        return redirect()->route('admin.projects.index');
+        $project->delete();
+
+        // Jika request adalah AJAX, kembalikan JSON
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+
+        return redirect()->route('admin.projects.index')->with('success', 'Project berhasil dihapus.');
     }
 }

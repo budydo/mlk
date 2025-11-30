@@ -201,7 +201,44 @@
                     </tbody>
                 </table>
 
-                <div class="px-6 py-4 border-t border-slate-200">{{ $projects->links() }}</div>
+                <div class="px-6 py-4 border-t border-slate-200">
+                    {{--
+                        Pagination kustom untuk Livewire.
+                        Menggunakan method Livewire `previousPage`, `nextPage`, dan `gotoPage`
+                        sehingga klik pagination selalu diproses oleh Livewire (XHR).
+                    --}}
+                    @if($projects->lastPage() > 1)
+                        <div class="flex items-center justify-between">
+                            <div class="text-sm text-slate-600">Menampilkan halaman {{ $projects->currentPage() }} dari {{ $projects->lastPage() }}</div>
+                            <div class="flex items-center space-x-2">
+                                {{-- Tombol Previous --}}
+                                <button
+                                    wire:click="previousPage"
+                                    data-lw-prev
+                                    @if($projects->onFirstPage()) disabled @endif
+                                    class="px-3 py-1 border rounded text-sm bg-white hover:bg-slate-50 disabled:opacity-50"
+                                >&laquo;</button>
+
+                                {{-- Tombol nomor halaman --}}
+                                @for($i = 1; $i <= $projects->lastPage(); $i++)
+                                    <button
+                                        wire:click="gotoPage({{ $i }})"
+                                        data-lw-page="{{ $i }}"
+                                        class="px-3 py-1 rounded text-sm {{ $projects->currentPage() == $i ? 'bg-emerald-600 text-white' : 'bg-white hover:bg-slate-50' }}"
+                                    >{{ $i }}</button>
+                                @endfor
+
+                                {{-- Tombol Next --}}
+                                <button
+                                    wire:click="nextPage"
+                                    data-lw-next
+                                    @if($projects->currentPage() == $projects->lastPage()) disabled @endif
+                                    class="px-3 py-1 border rounded text-sm bg-white hover:bg-slate-50 disabled:opacity-50"
+                                >&raquo;</button>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             @else
                 <div class="px-6 py-10 text-center text-slate-500"><p class="text-lg">Tidak ada proyek. <a href="#" wire:click="showCreateForm" class="text-emerald-600 hover:underline">Buat yang baru</a></p></div>
             @endif
@@ -224,3 +261,15 @@
     });
 </script>
 @endscript
+
+@push('scripts')
+<script>
+    // Minimal component-level marker to prevent duplicate initialization
+    (function() {
+        if (!window._LW_PaginationInitialized) {
+            window._LW_PaginationInitialized = true;
+            console.debug('[ProjectManager] Marking Livewire pagination as initialized by layout global handler');
+        }
+    })();
+</script>
+@endpush

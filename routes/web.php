@@ -91,3 +91,9 @@ Route::get('/_debug/php-meta', function () {
         'loaded_extensions' => get_loaded_extensions(),
     ]);
 });
+
+// Debug route: menampilkan halaman projects dengan Livewire tanpa autentikasi
+// Tujuan: verifikasi bahwa Livewire script dan komponen dimuat di halaman
+Route::get('/debug/livewire-projects', function () {
+    return view('debug.livewire-projects');
+});
