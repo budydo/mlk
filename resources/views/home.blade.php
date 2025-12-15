@@ -39,7 +39,7 @@
                 @endif
                 <div class="absolute inset-0 hero-mask"></div>
                 <div class="absolute inset-0 max-w-7xl mx-auto px-6 flex items-center">
-                  <div class="w-full lg:w-1/2 text-white py-12">
+                  <div class="w-full lg:w-1/2 text-white py-15">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold slide-title">{{ $content->title }}</h2>
                     <p class="mt-4 text-lg sm:text-xl text-slate-200/90">{{ $content->description }}</p>
                     @if($content->button_text && $content->button_url)
