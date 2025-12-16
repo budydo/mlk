@@ -35,11 +35,24 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        // Livewire ProjectManager component akan menangani semua logika CRUD
-        // termasuk: create, store, update, destroy, delete
-        // Berikan data projects paginasi untuk view blade (server-side pagination)
-        $projects = Project::orderBy('created_at', 'desc')->paginate(10);
-        return view('admin.projects.index', compact('projects'));
+        // Menangani parameter pencarian dan opsi filter publikasi untuk tampilan admin non-Livewire
+        $q = request()->input('q', '');
+        $onlyPublished = request()->has('onlyPublished') && request()->input('onlyPublished') == '1';
+
+        $query = Project::query()
+            ->when($q, function ($query) use ($q) {
+                $query->where('title', 'like', "%{$q}%")
+                      ->orWhere('slug', 'like', "%{$q}%");
+            })
+            ->when($onlyPublished, function ($query) {
+                $query->where('is_published', 1);
+            })
+            ->orderBy('created_at', 'desc');
+
+        $projects = $query->paginate(10)->withQueryString();
+
+        // Kirim kembali nilai pencarian dan filter agar UI tetap menampilkan state yang benar
+        return view('admin.projects.index', compact('projects', 'q', 'onlyPublished'));
     }
 
     /**

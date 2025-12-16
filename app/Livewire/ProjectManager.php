@@ -34,6 +34,9 @@ class ProjectManager extends Component
     public $editingId = null;
     public $searchTerm = '';
 
+    // Filter untuk menampilkan hanya proyek yang dipublikasikan
+    public $onlyPublished = false; // jika true, query akan memfilter hanya is_published = 1
+
     // Validasi
     protected $rules = [
         'title' => 'required|string|max:255',
@@ -59,9 +62,14 @@ class ProjectManager extends Component
     public function render()
     {
         $projects = Project::query()
+            // Filter pencarian berdasar judul atau slug
             ->when($this->searchTerm, function ($q) {
                 $q->where('title', 'like', '%' . $this->searchTerm . '%')
                   ->orWhere('slug', 'like', '%' . $this->searchTerm . '%');
+            })
+            // Opsi filter: hanya yang dipublikasikan
+            ->when($this->onlyPublished, function ($q) {
+                $q->where('is_published', 1);
             })
             ->orderBy('created_at', 'desc')
             ->paginate(10);

@@ -13,14 +13,26 @@
             @endif
         </div>
 
-        {{-- Search Bar: memudahkan pencarian proyek berdasarkan judul/slug --}}
-        <div class="mb-6">
-            <input 
-                type="text"
-                wire:model.live="searchTerm"
-                placeholder="Cari proyek..."
-                class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
-            >
+        {{-- Filter & Search: pencarian + checkbox untuk menampilkan hanya yang dipublikasikan --}}
+        <div class="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            {{-- Input pencarian --}}
+            <div class="flex-1">
+                <input 
+                    type="text"
+                    wire:model.live="searchTerm"
+                    placeholder="Cari proyek..."
+                    class="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                >
+            </div>
+
+            {{-- Checkbox filter publikasi --}}
+            <div class="flex items-center gap-3">
+                <label class="inline-flex items-center text-sm text-slate-700">
+                    <input type="checkbox" wire:model="onlyPublished" class="w-4 h-4 text-emerald-600 rounded">
+                    <span class="ml-2">Tampilkan hanya yang dipublikasikan</span>
+                </label>
+                <span class="text-xs text-slate-400">(Filter ini hanya menampilkan proyek dengan is_published = 1)</span>
+            </div>
         </div>
 
         {{-- Form Tambah/Edit --}}
@@ -181,16 +193,27 @@
                                 <td class="px-6 py-4 text-sm font-medium text-slate-900">{{ $project->title }}</td>
                                 <td class="px-6 py-4 text-sm text-slate-600">{{ $project->slug }}</td>
                                 <td class="px-6 py-4 text-sm">
-                                    <label class="inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" wire:click="togglePublished({{ $project->id }})" class="form-checkbox h-4 w-4 text-emerald-600" @if($project->is_published) checked @endif>
-                                        <span class="ml-2 text-sm">
+                                    {{-- Tombol status: menampilkan badge yang lebih rapi dan klik-able untuk toggle --}}
+                                    <div class="flex items-center">
+                                        <button wire:click="togglePublished({{ $project->id }})" class="inline-flex items-center gap-3 px-2 py-1 rounded hover:bg-slate-50 focus:outline-none" aria-label="Toggle published status">
                                             @if($project->is_published)
-                                                <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-medium">Dipublikasikan</span>
+                                                {{-- Icon centang kecil + badge hijau (dipublikasikan) --}}
+                                                <span class="inline-flex items-center justify-center w-6 h-6 bg-emerald-600 text-white rounded-full">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414L8.414 15l-4.121-4.121a1 1 0 011.414-1.414L8.414 12.586l7.879-7.879a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                                    </svg>
+                                                </span>
+                                                <span class="ml-2 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-medium">Dipublikasikan</span>
                                             @else
-                                                <span class="px-3 py-1 bg-slate-100 text-slate-800 rounded-full text-xs font-medium">Draf</span>
+                                                {{-- Badge draf kecil --}}
+                                                <span class="inline-flex items-center justify-center w-6 h-6 bg-slate-200 text-slate-600 rounded-full">
+                                                    {{-- Icon kosong untuk alignment --}}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 20 20" fill="none" aria-hidden="true"></svg>
+                                                </span>
+                                                <span class="ml-2 px-3 py-1 bg-slate-100 text-slate-800 rounded-full text-xs font-medium">Draf</span>
                                             @endif
-                                        </span>
-                                    </label>
+                                        </button>
+                                    </div>
                                 </td>
                                 <td class="px-6 py-4 text-sm text-right space-x-2">
                                     <button wire:click="showEditForm({{ $project->id }})" class="text-emerald-600 hover:text-emerald-800 font-medium transition">Edit</button>
