@@ -73,9 +73,9 @@
                                 <p class="text-sm text-slate-700 mb-2 font-medium">Preview Gambar:</p>
                                 @php $imgIsUrl = filter_var($this->image_path, FILTER_VALIDATE_URL); @endphp
                                 @if($imgIsUrl)
-                                    <img src="{{ $this->image_path }}" alt="Preview" class="h-40 object-cover rounded" onerror="this.src='https://via.placeholder.com/400x300?text=Gambar+Tidak+Ditemukan'">
+                                    <img src="{{ $this->image_path }}" alt="Preview" class="h-40 object-cover rounded" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27400%27%20height%3D%27300%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23f3f4f6%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20fill%3D%27%2373747a%27%20font-size%3D%2718%27%3EGambar%20Tidak%20Ditemukan%3C/text%3E%3C/svg%3E'">
                                 @else
-                                    <img src="{{ asset('storage/' . $this->image_path) }}" alt="Preview" class="h-40 object-cover rounded" onerror="this.src='https://via.placeholder.com/400x300?text=Gambar+Tidak+Ditemukan'">
+                                    <img src="{{ asset('storage/' . $this->image_path) }}" alt="Preview" class="h-40 object-cover rounded" onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27400%27%20height%3D%27300%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23f3f4f6%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20fill%3D%27%2373747a%27%20font-size%3D%2718%27%3EGambar%20Tidak%20Ditemukan%3C/text%3E%3C/svg%3E'">
                                 @endif
                             </div>
                         @endif

@@ -1,16 +1,10 @@
 {{-- resources/views/livewire/editor-service-manager.blade.php --}}
+{{-- DEPRECATED: Modul Services sudah dipindahkan ke implementasi server-side (non-Livewire).
+     Jangan gunakan file ini lagi; gunakan route /editor/services atau /admin/services untuk akses. --}}
 <div class="py-10">
     <div class="max-w-6xl mx-auto px-4 sm:px-6">
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-2xl font-extrabold text-slate-900">Kelola Layanan</h1>
-            @if(!$this->showForm)
-                <button 
-                    wire:click="showCreateForm"
-                    class="px-4 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition"
-                >
-                    + Tambah Layanan
-                </button>
-            @endif
+        <div class="mb-6">
+            <div class="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded">Perhatian: Livewire EditorServiceManager tidak lagi digunakan. Gunakan halaman Admin/Editor Services (non-Livewire).</div>
         </div>
 
         {{-- Search Bar --}}
@@ -141,20 +135,20 @@
                                 @endphp
                                 @if($imgIsUrl)
                                     {{-- Jika URL eksternal, tampilkan langsung dengan placeholder fallback --}}
+                                    {{-- Fallback gambar jika URL eksternal gagal dimuat; onerror dinolkan agar tidak memicu loop. --}}
                                     <img 
                                         src="{{ $this->image_path }}" 
                                         alt="Preview" 
                                         class="h-40 object-cover rounded" 
-                                        onerror="this.src='https://via.placeholder.com/400x300?text=Gambar+Tidak+Ditemukan'"
-                                    >
+                                        onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27400%27%20height%3D%27300%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23f3f4f6%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20fill%3D%27%2373747a%27%20font-size%3D%2718%27%3EGambar%20Tidak%20Ditemukan%3C/text%3E%3C/svg%3E'">
                                 @else
                                     {{-- Jika path lokal di storage, tampilkan via asset() helper --}}
+                                    {{-- Fallback gambar jika asset lokal gagal dimuat; clear onerror to prevent infinite loop. --}}
                                     <img 
                                         src="{{ asset('storage/' . $this->image_path) }}" 
                                         alt="Preview" 
                                         class="h-40 object-cover rounded" 
-                                        onerror="this.src='https://via.placeholder.com/400x300?text=Gambar+Tidak+Ditemukan'"
-                                    >
+                                        onerror="this.onerror=null;this.src='data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%27400%27%20height%3D%27300%27%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20fill%3D%27%23f3f4f6%27/%3E%3Ctext%20x%3D%2750%25%27%20y%3D%2750%25%27%20dominant-baseline%3D%27middle%27%20text-anchor%3D%27middle%27%20fill%3D%27%2373747a%27%20font-size%3D%2718%27%3EGambar%20Tidak%20Ditemukan%3C/text%3E%3C/svg%3E'">
                                 @endif
                             </div>
                         @else

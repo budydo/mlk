@@ -9,8 +9,10 @@ use Livewire\WithFileUploads;
 use Illuminate\Support\Facades\Log;
 
 /**
- * Komponen Livewire untuk Admin/Editor mengelola Posts (Blog)
- * Dengan error handling yang jelas dan detail logging
+ * DEPRECATED: Komponen Livewire untuk Posts telah digantikan oleh
+ * server-side controllers `Admin\PostController` dan `Editor\PostController`.
+ * Komponen ini dipertahankan untuk backward compatibilty sementara,
+ * tetapi tidak lagi dipanggil dari views admin/editor.
  */
 class PostManager extends Component
 {

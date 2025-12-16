@@ -53,8 +53,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->names('users');
     Route::resource('services', App\Http\Controllers\Admin\ServiceController::class)->names('services');
     Route::resource('projects', App\Http\Controllers\Admin\ProjectController::class)->names('projects');
-    // Route untuk manajemen blog posts di admin
-    Route::get('posts', fn() => view('admin.posts'))->name('posts.index');
+    // Route untuk manajemen blog posts di admin (server-side controller)
+    Route::resource('posts', App\Http\Controllers\Admin\PostController::class)->names('posts');
     Route::resource('contact-messages', App\Http\Controllers\Admin\ContactMessageController::class)->only(['index','show','destroy'])->names('contact-messages');
     Route::post('contact-messages/{contactMessage}/reply', [App\Http\Controllers\Admin\ContactMessageController::class, 'reply'])->name('contact-messages.reply');
 });
@@ -65,8 +65,8 @@ Route::middleware(['auth', 'role:editor'])->prefix('editor')->name('editor.')->g
     Route::resource('home-contents', App\Http\Controllers\Editor\HomeContentController::class)->names('home-contents');
     Route::resource('services', App\Http\Controllers\Editor\ServiceController::class)->names('services');
     Route::resource('projects', App\Http\Controllers\Editor\ProjectController::class)->names('projects');
-    // Route untuk manajemen blog posts di editor
-    Route::get('posts', fn() => view('editor.posts'))->name('posts.index');
+    // Route untuk manajemen blog posts di editor (server-side controller)
+    Route::resource('posts', App\Http\Controllers\Editor\PostController::class)->names('posts');
     Route::resource('contact-messages', App\Http\Controllers\Editor\ContactMessageController::class)->only(['index', 'show', 'destroy'])->names('contact-messages');
     // Route untuk mengirim balasan oleh editor (mirip seperti admin)
     Route::post('contact-messages/{contactMessage}/reply', [App\Http\Controllers\Editor\ContactMessageController::class, 'reply'])->name('contact-messages.reply');

@@ -5,6 +5,6 @@
 @section('title','Kelola Blog - Admin')
 
 @section('content')
-    {{-- Render komponen Livewire PostManager untuk admin --}}
-    @livewire('post-manager')
+    {{-- Gunakan implementasi server-side: sertakan index yang menampilkan table dan kontrol --}}
+    @include('admin.posts.index')
 @endsection

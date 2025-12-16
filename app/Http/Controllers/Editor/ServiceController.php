@@ -29,9 +29,23 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        // Livewire EditorServiceManager component akan menangani semua logika CRUD
-        // termasuk: create, store, update, destroy, delete, dan pencarian
-        return view('editor.services.index');
+        // Menangani pencarian dan filter untuk tampilan editor (non-Livewire)
+        $q = request()->input('q', '');
+        $onlyPublished = request()->has('onlyPublished') && request()->input('onlyPublished') == '1';
+
+        $query = Service::query()
+            ->when($q, function ($query) use ($q) {
+                $query->where('title', 'like', "%{$q}%")
+                      ->orWhere('slug', 'like', "%{$q}%");
+            })
+            ->when($onlyPublished, function ($query) {
+                $query->where('is_published', 1);
+            })
+            ->orderBy('created_at', 'desc');
+
+        $services = $query->paginate(10)->withQueryString();
+
+        return view('editor.services.index', compact('services', 'q', 'onlyPublished'));
     }
 
     /**
@@ -39,8 +53,7 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        // Redirect ke halaman index dimana Livewire akan menampilkan form create
-        return redirect()->route('editor.services.index');
+        return view('editor.services.create');
     }
 
     /**
@@ -48,8 +61,35 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        // Livewire menangani store operation secara real-time
-        return redirect()->route('editor.services.index');
+        $data = $request->validate([
+            'title' => 'required|string|max:191',
+            'slug' => 'required|string|max:191|unique:services,slug',
+            'excerpt' => 'nullable|string',
+            'description' => 'nullable|string',
+            'icon' => 'nullable|string',
+            'thumbnail_image' => 'nullable|image|mimes:jpeg,png,jpg|max:4096',
+            'image_url' => 'nullable|string|max:1000',
+            'features' => 'nullable|array',
+            'is_published' => 'sometimes|boolean',
+        ]);
+
+        if ($request->hasFile('thumbnail_image')) {
+            $file = $request->file('thumbnail_image');
+            $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+            $dest = public_path('images/services');
+            if (!file_exists($dest)) mkdir($dest, 0755, true);
+            $file->move($dest, $filename);
+            $data['image_path'] = 'images/services/' . $filename;
+        } elseif (!empty($data['image_url'])) {
+            $data['image_path'] = $data['image_url'];
+        }
+
+        $data['features'] = $data['features'] ?? [];
+        $data['is_published'] = isset($data['is_published']) ? (bool) $data['is_published'] : false;
+
+        Service::create($data);
+
+        return redirect()->route('editor.services.index')->with('success', 'Layanan berhasil ditambahkan.');
     }
 
     /**
@@ -66,8 +106,7 @@ class ServiceController extends Controller
      */
     public function edit(Service $service)
     {
-        // Redirect ke halaman index dimana Livewire akan menampilkan form edit
-        return redirect()->route('editor.services.index');
+        return view('editor.services.edit', compact('service'));
     }
 
     /**
@@ -75,8 +114,40 @@ class ServiceController extends Controller
      */
     public function update(Request $request, Service $service)
     {
-        // Livewire menangani update operation secara real-time
-        return redirect()->route('editor.services.index');
+        $data = $request->validate([
+            'title' => 'required|string|max:191',
+            'slug' => 'required|string|max:191|unique:services,slug,' . $service->id,
+            'excerpt' => 'nullable|string',
+            'description' => 'nullable|string',
+            'icon' => 'nullable|string',
+            'thumbnail_image' => 'nullable|image|mimes:jpeg,png,jpg|max:4096',
+            'image_url' => 'nullable|string|max:1000',
+            'features' => 'nullable|array',
+            'is_published' => 'sometimes|boolean',
+        ]);
+
+        if ($request->hasFile('thumbnail_image')) {
+            // Hapus file lama jika disimpan di folder public/images/services
+            if (!empty($service->image_path) && strpos($service->image_path, 'images/') === 0) {
+                $old = public_path($service->image_path);
+                if (file_exists($old)) @unlink($old);
+            }
+            $file = $request->file('thumbnail_image');
+            $filename = time().'_'.uniqid().'.'.$file->getClientOriginalExtension();
+            $dest = public_path('images/services');
+            if (!file_exists($dest)) mkdir($dest, 0755, true);
+            $file->move($dest, $filename);
+            $data['image_path'] = 'images/services/' . $filename;
+        } elseif (!empty($data['image_url'])) {
+            $data['image_path'] = $data['image_url'];
+        }
+
+        $data['features'] = $data['features'] ?? [];
+        $data['is_published'] = isset($data['is_published']) ? (bool) $data['is_published'] : false;
+
+        $service->update($data);
+
+        return redirect()->route('editor.services.index')->with('success', 'Layanan berhasil diperbarui.');
     }
 
     /**
@@ -84,7 +155,18 @@ class ServiceController extends Controller
      */
     public function destroy(Service $service)
     {
-        // Livewire menangani delete operation secara real-time
-        return redirect()->route('editor.services.index');
+        // Hapus file lokal jika ada
+        if (!empty($service->image_path) && strpos($service->image_path, 'images/') === 0) {
+            $path = public_path($service->image_path);
+            if (file_exists($path)) @unlink($path);
+        }
+
+        $service->delete();
+
+        if (request()->expectsJson()) {
+            return response()->json(['success' => true]);
+        }
+
+        return redirect()->route('editor.services.index')->with('success', 'Layanan berhasil dihapus.');
     }
 }
