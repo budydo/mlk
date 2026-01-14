@@ -39,7 +39,7 @@
                 @endif
                 <div class="absolute inset-0 hero-mask"></div>
                 <div class="absolute inset-0 max-w-7xl mx-auto px-6 flex items-center">
-                  <div class="w-full lg:w-1/2 text-white py-15">
+                  <div class="w-full lg:w-1/2 text-white py-12">
                     <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold slide-title">{{ $content->title }}</h2>
                     <p class="mt-4 text-lg sm:text-xl text-slate-200/90">{{ $content->description }}</p>
                     @if($content->button_text && $content->button_url)
@@ -101,7 +101,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
           <div class="reveal" data-reveal>
             {{-- Gambar atau ilustrasi tentang perusahaan --}}
-            <img src="{{ asset('images/home/4.png') }}" alt="Tentang kami" class="w-full rounded-xl shadow-lg object-cover h-96" />
+            <img src="{{ asset('build/images/home/4.png') }}" alt="Tentang kami" class="w-full rounded-xl shadow-lg object-cover h-96" />
           </div>
 
           <div class="reveal" data-reveal>
@@ -190,7 +190,7 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6">
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
           <div class="lg:col-span-2 reveal" data-reveal>
-            <img src="{{ asset('images/home/why.png') }}" alt="why choose" class="w-full rounded-xl shadow-lg object-cover h-96" />
+            <img src="{{ asset('build/images/home/why.png') }}" alt="why choose" class="w-full rounded-xl shadow-lg object-cover h-96" />
           </div>
 
           <div class="reveal" data-reveal>
@@ -302,7 +302,7 @@
             <article class="bg-white rounded-xl overflow-hidden shadow hover:shadow-lg transition reveal" data-reveal>
               {{-- Gambar Proyek --}}
               @if($project->cover_image)
-                <img src="{{ imageUrl($project->cover_image) }}" alt="{{ $project->title }}" class="w-full h-44 object-cover" />
+                <img src={{ asset('build/images/home/why.png') }} alt="{{ $project->title }}" class="w-full h-44 object-cover" />
               @else
                 <div class="w-full h-44 bg-gradient-to-br from-emerald-100 to-blue-100 flex items-center justify-center">
                   <div class="text-emerald-600 text-2xl font-bold">P</div>
